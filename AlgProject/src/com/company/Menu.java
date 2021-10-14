@@ -5,10 +5,10 @@ import lombok.AllArgsConstructor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.net.ServerSocket;
 
 public class Menu extends JPanel {
-
-    // private GameLoop gameLoop;
 
     public Menu(GameLoop gameLoop, JPanel viewContainer) {
 
@@ -21,6 +21,15 @@ public class Menu extends JPanel {
             viewContainer.add(gameLoop.getGraphics());
             viewContainer.revalidate();
             viewContainer.repaint();
+        });
+
+        JButton multiplayer = new JButton("Multiplayer");
+        multiplayer.addActionListener(e->{
+            try {
+                ServerSocket server = new ServerSocket();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
         });
 
         this.add(startGame);

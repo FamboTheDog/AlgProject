@@ -1,6 +1,5 @@
 package com.company.gameloop;
 
-import com.company.entities.Bullet;
 import com.company.entities.Player;
 import com.company.entities.RenderObject;
 import lombok.Setter;
@@ -27,8 +26,6 @@ public class RenderLayer extends JPanel {
         createBind(KeyStroke.getKeyStroke(KeyEvent.getExtendedKeyCodeForChar('w'), 0, true), "forwardStop", e -> player.setUp(false));
 
         //Others
-        double bulletX = player.getX() + player.getHEIGHT() / 2 * Math.sin(player.getAngle());
-        double bulletY = player.getY() + player.getHEIGHT() / 2 * -Math.cos(player.getAngle());
         createBind(KeyStroke.getKeyStroke("SPACE"), "shoot", e-> player.shoot(gameObjects));
     }
 
