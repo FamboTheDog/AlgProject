@@ -1,12 +1,10 @@
 package com.company;
 
 import com.company.gameloop.GameLoop;
-import lombok.AllArgsConstructor;
+import com.company.multiplayer.ApiConnection;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.IOException;
-import java.net.ServerSocket;
 
 public class Menu extends JPanel {
 
@@ -25,14 +23,11 @@ public class Menu extends JPanel {
 
         JButton multiplayer = new JButton("Multiplayer");
         multiplayer.addActionListener(e->{
-            try {
-                ServerSocket server = new ServerSocket();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+            ApiConnection.makeCall("test");
         });
 
         this.add(startGame);
+        this.add(multiplayer);
     }
 
 }
