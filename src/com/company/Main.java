@@ -12,7 +12,7 @@ public class Main {
     private static String GAME_NAME = "Battleships";
 
     public static void main(String[] args) {
-        JFrame window = new JFrame("Battleships");
+        JFrame window = new JFrame(GAME_NAME);
         window.setSize(new Dimension(640,480));
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setLocationRelativeTo(null);
@@ -22,9 +22,13 @@ public class Main {
         RenderLayer render = new RenderLayer();
         Updater updater = new Updater();
         GameLoop gameLoop = new GameLoop(render, updater);
-        gameLoop.startLoop();
 
-        window.add(render);
+        JPanel viewContainer = new JPanel();
+        viewContainer.setLayout(new BorderLayout());
+        window.add(viewContainer);
+
+        viewContainer.add(new Menu(gameLoop, viewContainer), BorderLayout.CENTER);
+
         window.revalidate();
         window.repaint();
     }
