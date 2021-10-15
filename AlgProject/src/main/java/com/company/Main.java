@@ -3,6 +3,7 @@ package com.company;
 import com.company.gameloop.GameLoop;
 import com.company.gameloop.RenderLayer;
 import com.company.gameloop.Updater;
+import com.company.menu.Menu;
 
 import javax.swing.*;
 import java.awt.*;

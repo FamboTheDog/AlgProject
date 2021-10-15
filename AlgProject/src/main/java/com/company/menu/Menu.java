@@ -1,7 +1,6 @@
-package com.company;
+package com.company.menu;
 
 import com.company.gameloop.GameLoop;
-import com.company.multiplayer.ApiConnection;
 
 import javax.swing.*;
 import java.awt.*;
@@ -23,11 +22,18 @@ public class Menu extends JPanel {
 
         JButton multiplayer = new JButton("Multiplayer");
         multiplayer.addActionListener(e->{
-            ApiConnection.makeCall("test");
+            viewContainer.remove(this);
+            viewContainer.add(new ServerMenu());
+            viewContainer.revalidate();
+            viewContainer.repaint();
         });
+
+        JButton quitGame = new JButton("Quit game");
+        quitGame.addActionListener(e-> System.exit(0));
 
         this.add(startGame);
         this.add(multiplayer);
+        this.add(quitGame);
     }
 
 }
