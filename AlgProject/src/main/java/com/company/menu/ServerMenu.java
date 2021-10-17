@@ -1,5 +1,7 @@
 package com.company.menu;
 
+import com.company.gameloop.GameLoop;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -7,7 +9,7 @@ public class ServerMenu extends JPanel {
 
     CardLayout cards = new CardLayout();
 
-    ServerMenu() {
+    ServerMenu(GameLoop gameLoop) {
         // this.add(new ServerMenuOptions());
         this.setLayout(cards);
         JPanel options = new JPanel();
@@ -25,7 +27,7 @@ public class ServerMenu extends JPanel {
         this.add(options, "menu");
 
         this.add(new ServerList(this), "servers");
-        this.add(new CreateServerMenu(), "create");
+        this.add(new CreateServerMenu(gameLoop, this), "create");
         cards.show(this, "menu");
     }
 

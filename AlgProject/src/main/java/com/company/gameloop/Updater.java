@@ -5,12 +5,9 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 
-public class Updater {
+abstract public class Updater {
 
-    @Setter private ArrayList<RenderObject> gameObjects;
-
-    public void update(){
-        gameObjects.forEach(RenderObject::update);
-    }
+    @Setter protected ArrayList<RenderObject> gameObjects;
+    abstract void update();
 
 }

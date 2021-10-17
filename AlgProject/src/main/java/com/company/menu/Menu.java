@@ -7,15 +7,15 @@ import java.awt.*;
 
 public class Menu extends JPanel {
 
-    public Menu(GameLoop gameLoop, JPanel viewContainer) {
+    public Menu(GameLoop gameLoop, GameLoop MPGameLoop, JPanel viewContainer) {
 
         this.setLayout(new FlowLayout());
 
         JButton startGame = new JButton("Single player");
         startGame.addActionListener(e->{
-            gameLoop.startLoop();
             viewContainer.remove(this);
             viewContainer.add(gameLoop.getGraphics());
+            gameLoop.startLoop();
             viewContainer.revalidate();
             viewContainer.repaint();
         });
@@ -23,7 +23,7 @@ public class Menu extends JPanel {
         JButton multiplayer = new JButton("Multiplayer");
         multiplayer.addActionListener(e->{
             viewContainer.remove(this);
-            viewContainer.add(new ServerMenu());
+            viewContainer.add(new ServerMenu(MPGameLoop));
             viewContainer.revalidate();
             viewContainer.repaint();
         });
