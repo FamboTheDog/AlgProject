@@ -15,12 +15,9 @@ public class CreateServerMenu extends JPanel {
 
         JButton submit = new JButton("Create server");
         submit.addActionListener(e->{
-            try {
-                Main.getOutputStream().write("TestServer");
-                Main.getOutputStream().close();
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
+
+            Main.getOutputStream().write("TestServer");
+
             Main.getViewContainer().remove(menu);
             Main.getViewContainer().add(gameLoop.getGraphics());
             gameLoop.startLoop();
