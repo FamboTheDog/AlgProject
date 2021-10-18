@@ -5,6 +5,7 @@ import com.company.gameloop.MPUpdater;
 import com.company.gameloop.RenderLayer;
 import com.company.gameloop.SPUpdater;
 import com.company.menu.Menu;
+import com.company.multiplayer.ServerConnection;
 import lombok.Getter;
 
 import javax.swing.*;
@@ -16,9 +17,6 @@ public class Main {
 
     private static String GAME_NAME = "Battleships";
     @Getter private static JPanel viewContainer = new JPanel();
-
-    @Getter private static BufferedReader inputStream;
-    @Getter private static PrintWriter outputStream;
 
     public static void main(String[] args) throws IOException {
         JFrame window = new JFrame(GAME_NAME);
@@ -38,11 +36,6 @@ public class Main {
 
         window.revalidate();
         window.repaint();
-
-        Socket userSocket = new Socket("localhost", 2020);
-        //outputStream = new BufferedWriter(new OutputStreamWriter(userSocket.getOutputStream()));
-        outputStream = new PrintWriter(new BufferedWriter(new OutputStreamWriter(userSocket.getOutputStream())));
-        inputStream  = new BufferedReader(new InputStreamReader(userSocket.getInputStream()));
     }
 
 }

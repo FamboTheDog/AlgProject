@@ -23,6 +23,7 @@ public class GameLoop implements Runnable{
 
         Player player = new Player();
         gameObjects.add(player);
+        updater.setPlayer(player);
         graphics.addKeyBinds(player);
         graphics.setGameObjects(gameObjects);
         updater.setGameObjects(gameObjects);

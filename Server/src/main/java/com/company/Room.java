@@ -16,9 +16,8 @@ public class Room implements Runnable {
 
     public Room(Socket creatorSocket, String serverName) throws IOException {
         this.serverName = serverName;
-        BufferedWriter creatorWriter = new BufferedWriter(new OutputStreamWriter(creatorSocket.getOutputStream()));
+        PrintWriter creatorWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(creatorSocket.getOutputStream())), true);
         creatorWriter.write("150 150");
-        creatorWriter.close();
         SocketInformation creatorInformation = new SocketInformation(new BufferedReader(new InputStreamReader(creatorSocket.getInputStream())), creatorWriter);
         players.put(creatorSocket, creatorInformation); // default location for spawn, will be changed later
     }
@@ -34,13 +33,13 @@ public class Room implements Runnable {
                     e.printStackTrace();
                 }
             });
-            players.forEach((socket, info) -> {
-                try {
-                    info.getWriter().write("test");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            });
+//            players.forEach((socket, info) -> {
+//                try {
+//                    info.getWriter().write("test");
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            });
         }
     }
 }
@@ -48,5 +47,5 @@ public class Room implements Runnable {
 @AllArgsConstructor
 class SocketInformation{
     private BufferedReader reader;
-    private BufferedWriter writer;
+    private PrintWriter writer;
 }
