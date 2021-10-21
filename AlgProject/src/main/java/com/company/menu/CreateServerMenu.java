@@ -5,7 +5,6 @@ import com.company.gameloop.GameLoop;
 import com.company.multiplayer.ServerConnection;
 
 import javax.swing.*;
-import java.io.IOException;
 
 public class CreateServerMenu extends JPanel {
 
@@ -16,7 +15,7 @@ public class CreateServerMenu extends JPanel {
 
         JButton submit = new JButton("Create server");
         submit.addActionListener(e->{
-            ServerConnection.sendMessage("Server");
+            ServerConnection.createRoom("Server");
 
             Main.getViewContainer().remove(menu);
             Main.getViewContainer().add(gameLoop.getGraphics());

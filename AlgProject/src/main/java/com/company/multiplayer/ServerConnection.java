@@ -1,10 +1,12 @@
 package com.company.multiplayer;
 
 import com.company.gameloop.MPUpdater;
+import com.company.multiplayer.errors.ServerResponseError;
 import lombok.Getter;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.ArrayList;
 
 final public class ServerConnection {
 
@@ -18,7 +20,7 @@ final public class ServerConnection {
 
     private static boolean alreadyInitialized = false;
 
-    // overriding the default constructor, so this class can't be instantiated
+    // overriding the default constructor to a private one, so this class can't be instantiated
     private ServerConnection(){}
 
     public static void initialize() {
@@ -40,8 +42,25 @@ final public class ServerConnection {
         }
     }
 
-    public static void sendMessage(String message) {
-        outputStream.println(message);
+    static final String ROOM_CREATION_COM = "CREATE ";
+    public static void createRoom(String message) {
+        outputStream.println(ROOM_CREATION_COM + message);
+    }
+
+    static final String LIST_ROOM_COM = "LIST ";
+    public static String[] listRooms() {
+        outputStream.println(LIST_ROOM_COM);
+        try {
+            return inputStream.readLine().split("\n");
+        } catch (IOException e) {
+            try {
+                throw new ServerResponseError("Server didn't respond correctly");
+            } catch (ServerResponseError ex) {
+                ex.printStackTrace();
+            }
+        }
+
+        return new String[]{};
     }
 
 }
