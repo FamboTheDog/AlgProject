@@ -6,6 +6,10 @@ import com.company.multiplayer.ServerConnection;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import java.awt.event.ActionEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 
 public class ServerList extends JPanel {
@@ -22,7 +26,23 @@ public class ServerList extends JPanel {
         };
         tableModel = new DefaultTableModel(defaultData, tableHeader);
 
-        JTable serverList = new JTable(tableModel);
+        JTable serverList = new JTable(tableModel) {
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+        serverList.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mousePressed(MouseEvent e) {
+                int row = serverList.rowAtPoint(e.getPoint());
+                int col = serverList.columnAtPoint(e.getPoint());
+                System.out.println(row + " " + col);
+                if (col == 1) {
+                    System.out.println(tableModel.getValueAt(row, 0).toString());
+                    ServerConnection.joinRoom(tableModel.getValueAt(row, 0).toString());
+                }
+            }
+        });
 
         this.add(new JScrollPane(serverList));
     }
@@ -34,10 +54,15 @@ public class ServerList extends JPanel {
             return;
         }
 
-        int rowCounter = 0, columnCounter;
+        int rowCounter = 0;
         for (String name: servers) {
-            columnCounter = 0;
-            tableModel.setValueAt(name, rowCounter, columnCounter);
+            tableModel.setValueAt(name, rowCounter, 0);
+
+            JButton joinButton = new JButton("join");
+            joinButton.setActionCommand(name);
+            joinButton.addActionListener(e-> ServerConnection.joinRoom(name));
+            tableModel.setValueAt("Join", rowCounter, 1);
+
             rowCounter++;
         }
     }

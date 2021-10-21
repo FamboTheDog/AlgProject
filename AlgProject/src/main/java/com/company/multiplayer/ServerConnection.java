@@ -63,4 +63,18 @@ final public class ServerConnection {
         return new String[]{};
     }
 
+    static final String JOIN_ROOM_COM = "JOIN ";
+    public static void joinRoom(String roomName) {
+        outputStream.println(JOIN_ROOM_COM + roomName);
+        try {
+            inputStream.readLine();
+        } catch (IOException e) {
+            try {
+                throw new ServerResponseError("Server wasn't able to connect you to the given room");
+            } catch (ServerResponseError ex) {
+                ex.printStackTrace();
+            }
+        }
+    }
+
 }

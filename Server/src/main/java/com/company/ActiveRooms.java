@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.data.SocketInformation;
+
 import java.io.IOException;
 import java.net.Socket;
 import java.util.*;
@@ -25,6 +27,10 @@ public class ActiveRooms {
 
     public static void addActiveRoom(String name, Room toAdd) {
         activeRooms.put(name, toAdd);
+    }
+
+    public static void addPlayerToActiveRoom(Socket user, String addTo, SocketInformation socketInformation) {
+        activeRooms.get(addTo).getPlayers().put(user, socketInformation);
     }
 
 }

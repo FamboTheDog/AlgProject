@@ -1,13 +1,16 @@
 package com.company;
 
+import com.company.data.SocketInformation;
 import com.company.errors.RoomNameException;
+import com.company.logger.LoggerUtil;
 import lombok.SneakyThrows;
-import org.w3c.dom.ls.LSOutput;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.List;
+import java.net.SocketException;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class User implements Runnable{
 
@@ -23,28 +26,44 @@ public class User implements Runnable{
     @Override
     public void run() {
         System.out.println("waiting for user");
+        BufferedReader socketReader = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
+        PrintWriter socketWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(currentSocket.getOutputStream())));
+        // ObjectOutputStream objectWriter = new ObjectOutputStream(currentSocket.getOutputStream());
+
+        SocketInformation socketInformation = new SocketInformation(socketReader, socketWriter);
 
         boolean terminalInput = false;
         while(!terminalInput) {
-            BufferedReader socketReader = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
-            PrintWriter creatorWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(currentSocket.getOutputStream())));
-            // ObjectOutputStream objectWriter = new ObjectOutputStream(currentSocket.getOutputStream());
-            String socketInput = socketReader.readLine();
-            String[] commands  = socketInput.split(" ");
+            try {
 
-            if (commands[0].equals("CREATE")){
-                System.out.println("A");
+                String socketInput = socketReader.readLine();
+                String[] commands  = socketInput.split(" ");
+
+                switch (commands[0]) {
+                    case "CREATE"-> {
+                        terminalInput = true;
+                        createRoom(commands);
+                    }
+                    case "LIST"->{
+                        ActiveRooms.getActiveRoomsAsList().forEach(e -> {
+                            System.out.println(e);
+                            socketWriter.println(e);
+                        });
+                        socketWriter.flush();
+                    }
+                    case "JOIN"-> {
+                        terminalInput = true;
+                        LoggerUtil.getLogger().log(Level.INFO, "User is trying to join");
+
+                        ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], socketInformation);
+                        LoggerUtil.getLogger().log(Level.INFO, "User joined");
+                    }
+                    default -> LoggerUtil.getLogger().log(Level.WARNING,
+                            "User with id: " + id + " send a bad command.");
+                }
+            } catch (SocketException e){
+                LoggerUtil.getLogger().log(Level.INFO, "User with id: " + id + " disconnected.");
                 terminalInput = true;
-                createRoom(commands);
-            }else {
-                System.out.println("B");
-                ActiveRooms.getActiveRoomsAsList().forEach(e->{
-                    System.out.println(e);
-                    creatorWriter.println(e);
-                });
-//                creatorWriter.println("yos");
-                creatorWriter.flush();
-                System.out.println("done");
             }
         }
 
