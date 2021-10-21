@@ -7,7 +7,7 @@ import java.net.ServerSocket;
 
 public class Server {
 
-    private ServerSocket socket;
+    private final ServerSocket socket;
     @Setter private boolean running;
 
     Server(ServerSocket socket) {

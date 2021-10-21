@@ -19,6 +19,7 @@ public class ServerMenu extends JPanel {
         JButton listServers = new JButton("Join game");
         listServers.addActionListener(e->{
             showCard("servers");
+            ServerList.loadRooms();
             // todo refactor serverList to have a method for loading data from api call
         });
         options.add(listServers);

@@ -5,8 +5,9 @@ import lombok.Data;
 
 import java.io.*;
 import java.net.Socket;
+import java.net.SocketException;
 import java.util.HashMap;
-import java.util.UUID;
+import java.util.Iterator;
 
 public class Room implements Runnable {
 
@@ -24,28 +25,32 @@ public class Room implements Runnable {
 
     @Override
     public void run() {
-        System.out.println("room started");
+        System.out.println("Room started");
         while (running){
-            players.forEach((socket, info) -> {
+            Iterator<Socket> player = players.keySet().iterator();
+
+            while (player.hasNext()) {
+                Socket key = player.next();
                 try {
-                    System.out.println(info.getReader().readLine());
+                    System.out.println(players.get(key).getReader().readLine());
+                } catch (SocketException ex) {
+                    System.out.println("player disconnected");
+                    player.remove();
+                    if (players.size() == 0) {
+                        running = false;
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            });
-//            players.forEach((socket, info) -> {
-//                try {
-//                    info.getWriter().write("test");
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            });
+            }
         }
+        System.out.println("Room stopped");
     }
 }
 @Data
 @AllArgsConstructor
 class SocketInformation{
+    // this will later have to hold the username as well
     private BufferedReader reader;
     private PrintWriter writer;
 }
