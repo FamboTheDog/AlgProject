@@ -20,8 +20,10 @@ public class GameLoop implements Runnable{
     public GameLoop(RenderLayer graphics, Updater updater){
         this.graphics = graphics;
         this.updater = updater;
+
         Player player = new Player();
         gameObjects.add(player);
+        updater.setPlayer(player);
         graphics.addKeyBinds(player);
         graphics.setGameObjects(gameObjects);
         updater.setGameObjects(gameObjects);

@@ -5,7 +5,7 @@ import lombok.Setter;
 
 import java.util.ArrayList;
 
-public class Updater {
+public class SPUpdater extends Updater {
 
     @Setter private ArrayList<RenderObject> gameObjects;
 
