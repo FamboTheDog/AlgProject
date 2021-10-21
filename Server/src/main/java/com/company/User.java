@@ -30,7 +30,7 @@ public class User implements Runnable{
             String serverName = socketInput.readLine();
         //       }
 
-        Thread newRoom = new Thread(new Room(id, serverName));
+        Thread newRoom = new Thread(new Room(currentSocket, serverName));
         newRoom.start();
 
         System.out.println("user responded");
