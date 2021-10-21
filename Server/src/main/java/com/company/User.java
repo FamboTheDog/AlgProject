@@ -24,8 +24,11 @@ public class User implements Runnable{
     @Override
     public void run() {
         System.out.println("waiting for user");
-        BufferedReader socketInput = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
-        String serverName = socketInput.readLine();
+
+        //        while() {
+            BufferedReader socketInput = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
+            String serverName = socketInput.readLine();
+        //       }
 
         Thread newRoom = new Thread(new Room(id, serverName));
         newRoom.start();
