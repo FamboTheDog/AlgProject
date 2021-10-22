@@ -40,18 +40,18 @@ public class User implements Runnable{
                 String[] commands  = socketInput.split(" ");
 
                 switch (commands[0]) {
-                    case "CREATE"-> {
+                    case "CREATE" -> {
                         terminalInput = true;
                         createRoom(commands);
                     }
-                    case "LIST"->{
+                    case "LIST" ->{
                         ActiveRooms.getActiveRoomsAsList().forEach(e -> {
                             System.out.println(e);
                             socketWriter.println(e);
                         });
                         socketWriter.flush();
                     }
-                    case "JOIN"-> {
+                    case "JOIN" -> {
                         terminalInput = true;
                         LoggerUtil.getLogger().log(Level.INFO, "User is trying to join");
 

@@ -1,7 +1,11 @@
-package com.company.menu;
+package com.company.menu.server_list;
 
 
+import com.company.Main;
+import com.company.gameloop.GameLoop;
+import com.company.menu.ServerMenu;
 import com.company.multiplayer.ServerConnection;
+import lombok.Getter;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -15,9 +19,10 @@ import java.util.ArrayList;
 public class ServerList extends JPanel {
 
     private ServerMenu serverMenu;
-    private static TableModel tableModel;
+    @Getter private static TableModel tableModel;
+    @Getter private JTable serverList;
 
-    ServerList(ServerMenu serverMenu) {
+    public ServerList(ServerMenu serverMenu, GameLoop gameLoop) {
         this.serverMenu = serverMenu;
 
         Object[] tableHeader = {"Name", "join"};
@@ -26,23 +31,12 @@ public class ServerList extends JPanel {
         };
         tableModel = new DefaultTableModel(defaultData, tableHeader);
 
-        JTable serverList = new JTable(tableModel) {
+        serverList = new JTable(tableModel) {
             public boolean isCellEditable(int row, int column) {
                 return false;
             }
         };
-        serverList.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mousePressed(MouseEvent e) {
-                int row = serverList.rowAtPoint(e.getPoint());
-                int col = serverList.columnAtPoint(e.getPoint());
-                System.out.println(row + " " + col);
-                if (col == 1) {
-                    System.out.println(tableModel.getValueAt(row, 0).toString());
-                    ServerConnection.joinRoom(tableModel.getValueAt(row, 0).toString());
-                }
-            }
-        });
+        serverList.addMouseListener(new MouseAdapterImpl(serverMenu, this, gameLoop));
 
         this.add(new JScrollPane(serverList));
     }

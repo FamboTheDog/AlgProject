@@ -33,7 +33,8 @@ public class Room implements Runnable {
             while (player.hasNext()) {
                 Socket key = player.next();
                 try {
-                    players.get(key).getReader().readLine();
+                    String socketPosition = players.get(key).getReader().readLine();
+                    System.out.println(socketPosition);
                 } catch (SocketException ex) {
                     System.out.println("player disconnected");
                     player.remove();

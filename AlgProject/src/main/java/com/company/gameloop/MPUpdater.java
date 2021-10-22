@@ -15,7 +15,7 @@ public class MPUpdater extends Updater{
 
     public void update(){
         gameObjects.forEach(RenderObject::update);
-        String playerPosition = Double.toString(player.getX()) + player.getY();
+        String playerPosition = player.getX() + " " + player.getY() + " " + player.getAngle();
         socketWriter.println(playerPosition);
     }
 }
