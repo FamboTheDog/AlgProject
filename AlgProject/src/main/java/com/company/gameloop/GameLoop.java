@@ -35,18 +35,23 @@ public class GameLoop implements Runnable{
 
         Thread gameLoop = new Thread(this);
         gameLoop.start();
+
+        if (updater instanceof MPUpdater) {
+            Thread updaterThread = new Thread((MPUpdater) updater);
+            updaterThread.start();
+        }
     }
 
     @Override
     public void run() {
         long lastTimeCycle = System.nanoTime();
-        long lastTimeOutput = System.currentTimeMillis();
+       // long lastTimeOutput = System.currentTimeMillis();
 
         double unprocessedTicks = 0;
         double nsPerTick = Math.pow(10,9) / 60; // 10^9 == 1 second. 60 == the number of ticks that has to be done each second
 
-        int fps = 0;
-        int ticks = 0;
+//        int fps = 0;
+//        int ticks = 0;
         // very basic game loop
         while(isRunning){
             long currentTimeCycle = System.nanoTime();
@@ -54,20 +59,20 @@ public class GameLoop implements Runnable{
             lastTimeCycle = currentTimeCycle;
 
             while(unprocessedTicks >= 1) {
-                ticks++;
+//                ticks++;
                 unprocessedTicks--;
                 updater.update();
             }
             graphics.repaint();
 
-            fps++;
-            // used just for printing out fps and ticks
-            if(System.currentTimeMillis() - lastTimeOutput > 1000){
-                lastTimeOutput += 1000;
-                System.out.println("Ticks: " + ticks + " FPS: " + fps);
-                fps = 0;
-                ticks = 0;
-            }
+//            fps++;
+//            // used just for printing out fps and ticks
+//            if(System.currentTimeMillis() - lastTimeOutput > 1000){
+//                lastTimeOutput += 1000;
+//                System.out.println("Ticks: " + ticks + " FPS: " + fps);
+//                fps = 0;
+//                ticks = 0;
+//            }
         }
     }
 }

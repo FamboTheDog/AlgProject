@@ -49,7 +49,13 @@ public class RenderLayer extends JPanel {
         gd.setColor(Color.black);
         gd.fillRect(0, 0, getWidth(), getHeight());
 
-        gameObjects.forEach(o -> o.paint(gd));
+        // gameObjects.forEach(o -> o.paint(gd));
+//        for (RenderObject toPaint: gameObjects) {
+//            toPaint.paint(gd);
+//        }
+        for (int i = 0; i < gameObjects.size(); i++) {
+            gameObjects.get(i).paint(gd);
+        }
     }
 
 }

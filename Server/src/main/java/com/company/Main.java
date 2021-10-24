@@ -1,5 +1,7 @@
 package com.company;
 
+import com.company.server_structure.Server;
+
 import java.io.IOException;
 import java.net.ServerSocket;
 

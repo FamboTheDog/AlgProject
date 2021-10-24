@@ -1,6 +1,7 @@
 package com.company.menu;
 
 import com.company.gameloop.GameLoop;
+import com.company.menu.server_list.ServerList;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,7 +10,7 @@ public class ServerMenu extends JPanel {
 
     CardLayout cards = new CardLayout();
 
-    ServerMenu(GameLoop gameLoop) {
+    public ServerMenu(GameLoop gameLoop) {
         // this.add(new ServerMenuOptions());
         this.setLayout(cards);
         JPanel options = new JPanel();
@@ -20,14 +21,13 @@ public class ServerMenu extends JPanel {
         listServers.addActionListener(e->{
             showCard("servers");
             ServerList.loadRooms();
-            // todo refactor serverList to have a method for loading data from api call
         });
         options.add(listServers);
         options.add(createServer);
 
         this.add(options, "menu");
 
-        this.add(new ServerList(this), "servers");
+        this.add(new ServerList(this, gameLoop), "servers");
         this.add(new CreateServerMenu(gameLoop, this), "create");
         cards.show(this, "menu");
     }
