@@ -21,7 +21,6 @@ public class ServerMenu extends JPanel {
         listServers.addActionListener(e->{
             showCard("servers");
             ServerList.loadRooms();
-            // todo refactor serverList to have a method for loading data from api call
         });
         options.add(listServers);
         options.add(createServer);

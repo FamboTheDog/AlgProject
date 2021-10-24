@@ -1,6 +1,7 @@
-package com.company;
+package com.company.server_structure;
 
 import com.company.data.SocketInformation;
+import com.company.server_structure.room.Room;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -10,13 +11,13 @@ public class ActiveRooms {
 
     static HashMap<String, Room> activeRooms;
 
-    static{
+    static {
         activeRooms = new HashMap<>();
-        try {
-            activeRooms.put("TestServer", new Room(new Socket("localhost", 2020), "Name"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+//        try {
+//            activeRooms.put("TestServer", new Room(new Socket("localhost", 2020), "Name"));
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
     }
 
     public static List<String> getActiveRoomsAsList() {

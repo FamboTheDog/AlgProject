@@ -1,4 +1,4 @@
-package com.company;
+package com.company.server_structure;
 
 import lombok.Setter;
 
@@ -10,7 +10,7 @@ public class Server {
     private final ServerSocket socket;
     @Setter private boolean running;
 
-    Server(ServerSocket socket) {
+    public Server(ServerSocket socket) {
         this.socket = socket;
         running = true;
     }

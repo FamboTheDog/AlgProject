@@ -25,7 +25,6 @@ public class MouseAdapterImpl extends MouseAdapter {
         int row = serverList.getServerList().rowAtPoint(e.getPoint());
         int col = serverList.getServerList().columnAtPoint(e.getPoint());
         if (col == 1) {
-            System.out.println(ServerList.getTableModel().getValueAt(row, 0).toString());
             ServerConnection.joinRoom(ServerList.getTableModel().getValueAt(row, 0).toString());
                 Main.getViewContainer().remove(serverMenu);
                 Main.getViewContainer().add(gameLoop.getGraphics());

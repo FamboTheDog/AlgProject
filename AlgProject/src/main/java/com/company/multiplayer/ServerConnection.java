@@ -37,6 +37,7 @@ final public class ServerConnection {
             inputStream  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
             MPUpdater.setSocketWriter(outputStream);
+            MPUpdater.setSocketReader(inputStream);
         }catch (IOException e){
             System.out.println("multiplayer is not working for you");
         }
@@ -47,11 +48,11 @@ final public class ServerConnection {
         outputStream.println(ROOM_CREATION_COM + message);
     }
 
-    static final String LIST_ROOM_COM = "LIST ";
+    static final String LIST_ROOM_COM = "LIST";
     public static String[] listRooms() {
         outputStream.println(LIST_ROOM_COM);
         try {
-            return inputStream.readLine().split("\n");
+            return inputStream.readLine().split(";");
         } catch (IOException e) {
             try {
                 throw new ServerResponseError("Server didn't respond correctly");
@@ -66,15 +67,16 @@ final public class ServerConnection {
     static final String JOIN_ROOM_COM = "JOIN ";
     public static void joinRoom(String roomName) {
         outputStream.println(JOIN_ROOM_COM + roomName);
-        try {
-            inputStream.readLine();
-        } catch (IOException e) {
-            try {
-                throw new ServerResponseError("Server wasn't able to connect you to the given room");
-            } catch (ServerResponseError ex) {
-                ex.printStackTrace();
-            }
-        }
+
+//        try {
+//            System.out.println(inputStream.readLine());
+//        } catch (IOException e) {
+//            try {
+//                throw new ServerResponseError("Server wasn't able to connect you to the given room");
+//            } catch (ServerResponseError ex) {
+//                ex.printStackTrace();
+//            }
+//        }
     }
 
 }

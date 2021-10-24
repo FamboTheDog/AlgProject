@@ -6,14 +6,12 @@ import lombok.Setter;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
-import java.util.ArrayList;
 
 public class ConnectedPlayer implements RenderObject {
 
-    @Getter double angle = 0;
-
-    @Getter double x;
-    @Getter double y;
+    @Setter @Getter double angle;
+    @Setter@Getter double x;
+    @Setter@Getter double y;
 
 
     public ConnectedPlayer(double x, double y, double angle){

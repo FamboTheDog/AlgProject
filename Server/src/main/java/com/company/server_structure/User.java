@@ -1,8 +1,9 @@
-package com.company;
+package com.company.server_structure;
 
 import com.company.data.SocketInformation;
 import com.company.errors.RoomNameException;
 import com.company.logger.LoggerUtil;
+import com.company.server_structure.room.Room;
 import lombok.SneakyThrows;
 
 import java.io.*;
@@ -10,7 +11,6 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.UUID;
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class User implements Runnable{
 
@@ -27,7 +27,7 @@ public class User implements Runnable{
     public void run() {
         System.out.println("waiting for user");
         BufferedReader socketReader = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
-        PrintWriter socketWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(currentSocket.getOutputStream())));
+        PrintWriter socketWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(currentSocket.getOutputStream())), true);
         // ObjectOutputStream objectWriter = new ObjectOutputStream(currentSocket.getOutputStream());
 
         SocketInformation socketInformation = new SocketInformation(socketReader, socketWriter);
@@ -35,7 +35,6 @@ public class User implements Runnable{
         boolean terminalInput = false;
         while(!terminalInput) {
             try {
-
                 String socketInput = socketReader.readLine();
                 String[] commands  = socketInput.split(" ");
 
@@ -47,27 +46,23 @@ public class User implements Runnable{
                     case "LIST" ->{
                         ActiveRooms.getActiveRoomsAsList().forEach(e -> {
                             System.out.println(e);
-                            socketWriter.println(e);
+                            socketWriter.write(e + ";");
                         });
-                        socketWriter.flush();
+                        socketWriter.println();
                     }
                     case "JOIN" -> {
                         terminalInput = true;
-                        LoggerUtil.getLogger().log(Level.INFO, "User is trying to join");
-
                         ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], socketInformation);
                         LoggerUtil.getLogger().log(Level.INFO, "User joined");
                     }
                     default -> LoggerUtil.getLogger().log(Level.WARNING,
-                            "User with id: " + id + " send a bad command.");
+                            "User with id: " + id + " sent a bad command.");
                 }
             } catch (SocketException e){
                 LoggerUtil.getLogger().log(Level.INFO, "User with id: " + id + " disconnected.");
                 terminalInput = true;
             }
         }
-
-        System.out.println("user responded");
     }
 
     private void createRoom(String[] commands) {
@@ -84,8 +79,8 @@ public class User implements Runnable{
         }
 
         try {
-            Thread newRoom = new Thread(new Room(currentSocket, serverName));
-            newRoom.start();
+            Room room = new Room(currentSocket, serverName);
+            room.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
