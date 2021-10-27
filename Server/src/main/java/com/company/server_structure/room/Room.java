@@ -40,7 +40,6 @@ public class Room implements Runnable {
                 try {
                     String socketPosition = players.get(key).getReader().readLine();
                     positions.add(socketPosition);
-                    // System.out.println(socketPosition);
                 } catch (SocketException ex) {
                     System.out.println("player disconnected");
                     players.remove(key);

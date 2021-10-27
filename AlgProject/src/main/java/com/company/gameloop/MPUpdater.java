@@ -44,8 +44,9 @@ public class MPUpdater extends Updater implements Runnable {
 
         while(listening) {
             try {
+                // String[] allPositions = socketReader.readLine().split(";");
                 String[] positions = socketReader.readLine().split(";");
-                Arrays.stream(positions).forEach(e-> System.out.println("this: " + e));
+                // Arrays.stream(positions).forEach(e-> System.out.println("this: " + e));
 
                 while (positions.length > enemies.size()) {
                     int newPlayerIndex = positions.length - 1;
