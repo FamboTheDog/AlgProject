@@ -1,39 +1,39 @@
 package com.company.entities;
 
-
 import lombok.Getter;
 import lombok.Setter;
 
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
+import java.io.PrintWriter;
 import java.util.ArrayList;
-/*
-* TODO
-*  the player should have something like acceleration
-* */
+
 public class Player implements RenderObject {
 
-    final double moveSpeed = 2.5;
-    @Getter double angle = 0;
+    private double moveSpeed = 2.5;
+    @Getter private double angle = 0;
 
-    @Getter double x;
-    @Getter double y;
+    @Getter private double x;
+    @Getter private double y;
 
-    @Setter boolean up    = false;
-    @Setter boolean left  = false;
-    @Setter boolean right = false;
+    @Setter private  boolean up    = false;
+    @Setter private  boolean left  = false;
+    @Setter private  boolean right = false;
 
-    long lastShotTime = 0;
+    private final PrintWriter writer;
 
-    public Player(){
-        this.x = 150;
-        this.y = 150;
+    private long lastShotTime = 0;
+
+    private final static double DEFAULT_SPAWN_POINT = 150;
+    public Player(PrintWriter writer){
+        this(DEFAULT_SPAWN_POINT, DEFAULT_SPAWN_POINT, writer);
     }
 
-    public Player(double x, double y){
+    public Player(double x, double y, PrintWriter writer){
         this.x = x;
         this.y = y;
+        this.writer = writer;
     }
 
     public void moveUp(){
@@ -43,6 +43,8 @@ public class Player implements RenderObject {
 
     @Override
     public void update() {
+        String playerPosition = getX() + " " + getY() + " " + getAngle();
+        writer.println(playerPosition);
         if (left)  angle -= 0.1;
         if (right) angle += 0.1;
         if (up)    moveUp();

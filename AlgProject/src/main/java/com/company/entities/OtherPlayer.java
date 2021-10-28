@@ -6,23 +6,34 @@ import lombok.Setter;
 import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Path2D;
+import java.io.BufferedReader;
+import java.io.IOException;
 
-public class ConnectedPlayer implements RenderObject {
+public class OtherPlayer implements RenderObject {
 
-    @Setter @Getter double angle;
-    @Setter@Getter double x;
-    @Setter@Getter double y;
+    @Setter @Getter private double angle;
+    @Setter @Getter private double x;
+    @Setter @Getter private double y;
 
+    private BufferedReader reader;
 
-    public ConnectedPlayer(double x, double y, double angle){
+    public OtherPlayer(double x, double y, double angle, BufferedReader reader){
         this.x = x;
         this.y = y;
         this.angle = angle;
+        this.reader = reader;
     }
 
     @Override
     public void update() {
-
+        try {
+            String[] newPositions = reader.readLine().split(" ");
+            this.x = Double.parseDouble(newPositions[0]);
+            this.y = Double.parseDouble(newPositions[1]);
+            this.angle = Double.parseDouble(newPositions[2]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Getter final double HEIGHT = 20;

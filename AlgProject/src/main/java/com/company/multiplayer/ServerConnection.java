@@ -36,7 +36,6 @@ final public class ServerConnection {
             outputStream = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
             inputStream  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            MPUpdater.setSocketWriter(outputStream);
             MPUpdater.setSocketReader(inputStream);
         }catch (IOException e){
             System.out.println("multiplayer is not working for you");
@@ -67,16 +66,6 @@ final public class ServerConnection {
     static final String JOIN_ROOM_COM = "JOIN ";
     public static void joinRoom(String roomName) {
         outputStream.println(JOIN_ROOM_COM + roomName);
-
-//        try {
-//            System.out.println(inputStream.readLine());
-//        } catch (IOException e) {
-//            try {
-//                throw new ServerResponseError("Server wasn't able to connect you to the given room");
-//            } catch (ServerResponseError ex) {
-//                ex.printStackTrace();
-//            }
-//        }
     }
 
 }
