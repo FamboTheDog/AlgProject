@@ -2,7 +2,6 @@ package com.company.server_structure;
 
 import com.company.data.SocketInformation;
 import com.company.errors.RoomNameException;
-import com.company.logger.LoggerUtil;
 import com.company.server_structure.room.Room;
 import lombok.SneakyThrows;
 
@@ -11,6 +10,7 @@ import java.net.Socket;
 import java.net.SocketException;
 import java.util.UUID;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class User implements Runnable{
 
@@ -22,13 +22,14 @@ public class User implements Runnable{
         this.id = UUID.randomUUID();
     }
 
+    private final Logger logger = Logger.getLogger(User.class.getName());
+
     @SneakyThrows
     @Override
     public void run() {
         System.out.println("waiting for user");
         BufferedReader socketReader = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
         PrintWriter socketWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(currentSocket.getOutputStream())), true);
-        // ObjectOutputStream objectWriter = new ObjectOutputStream(currentSocket.getOutputStream());
 
         SocketInformation socketInformation = new SocketInformation(socketReader, socketWriter);
 
@@ -53,13 +54,14 @@ public class User implements Runnable{
                     case "JOIN" -> {
                         terminalInput = true;
                         ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], socketInformation);
-                        LoggerUtil.getLogger().log(Level.INFO, "User joined");
+                        socketWriter.println("joined");
+                        logger.log(Level.INFO, "User joined");
                     }
-                    default -> LoggerUtil.getLogger().log(Level.WARNING,
+                    default -> logger.log(Level.WARNING,
                             "User with id: " + id + " sent a bad command.");
                 }
             } catch (SocketException e){
-                LoggerUtil.getLogger().log(Level.INFO, "User with id: " + id + " disconnected.");
+                logger.log(Level.INFO, "User with id: " + id + " disconnected.");
                 terminalInput = true;
             }
         }

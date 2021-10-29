@@ -2,6 +2,7 @@ package com.company.gameloop;
 
 import com.company.entities.Player;
 import com.company.entities.RenderObject;
+import com.company.multiplayer.ServerConnection;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,20 +16,15 @@ public class GameLoop implements Runnable{
 
     @Setter private boolean isRunning = false;
 
-    @Getter private ArrayList<RenderObject> gameObjects = new ArrayList<>();
+    @Getter private final ArrayList<RenderObject> gameObjects = new ArrayList<>();
 
     public GameLoop(RenderLayer graphics, Updater updater){
         this.graphics = graphics;
         this.updater = updater;
 
-        Player player = new Player();
-        gameObjects.add(player);
-        updater.setPlayer(player);
-        graphics.addKeyBinds(player);
         graphics.setGameObjects(gameObjects);
         updater.setGameObjects(gameObjects);
     }
-
 
     public void startLoop(){
         isRunning = true;
@@ -36,10 +32,9 @@ public class GameLoop implements Runnable{
         Thread gameLoop = new Thread(this);
         gameLoop.start();
 
-        if (updater instanceof MPUpdater) {
-            Thread updaterThread = new Thread((MPUpdater) updater);
-            updaterThread.start();
-        }
+        Player player = new Player(ServerConnection.getOutputStream());
+        gameObjects.add(player);
+        graphics.addKeyBinds(player);
     }
 
     @Override
