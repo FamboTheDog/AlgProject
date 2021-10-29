@@ -52,9 +52,6 @@ public class ServerList extends JPanel {
         for (String name: servers) {
             tableModel.setValueAt(name, rowCounter, 0);
 
-//            JButton joinButton = new JButton("join");
-////            joinButton.setActionCommand(name);
-//////            joinButton.addActionListener(e-> ServerConnection.joinRoom(name));
             tableModel.setValueAt("Join", rowCounter, 1);
 
             rowCounter++;

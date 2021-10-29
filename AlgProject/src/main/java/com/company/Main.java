@@ -1,14 +1,13 @@
 package com.company;
 
 import com.company.gameloop.GameLoop;
-import com.company.gameloop.MPUpdater;
+import com.company.gameloop.Updater;
 import com.company.gameloop.RenderLayer;
 import com.company.menu.Menu;
 import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
 
 public class Main {
 
@@ -23,7 +22,7 @@ public class Main {
         window.setResizable(true);
         window.setVisible(true);
 
-        GameLoop MPGameLoop = new GameLoop(new RenderLayer(), new MPUpdater());
+        GameLoop MPGameLoop = new GameLoop(new RenderLayer(), new Updater());
 
         viewContainer.setLayout(new BorderLayout());
         window.add(viewContainer);

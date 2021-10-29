@@ -1,12 +1,11 @@
 package com.company.multiplayer;
 
-import com.company.gameloop.MPUpdater;
+import com.company.gameloop.Updater;
 import com.company.multiplayer.errors.ServerResponseError;
 import lombok.Getter;
 
 import java.io.*;
 import java.net.Socket;
-import java.util.ArrayList;
 
 final public class ServerConnection {
 
@@ -36,7 +35,7 @@ final public class ServerConnection {
             outputStream = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
             inputStream  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
 
-            MPUpdater.setSocketReader(inputStream);
+            Updater.setSocketReader(inputStream);
         }catch (IOException e){
             System.out.println("multiplayer is not working for you");
         }
@@ -64,8 +63,9 @@ final public class ServerConnection {
     }
 
     static final String JOIN_ROOM_COM = "JOIN ";
-    public static void joinRoom(String roomName) {
+    public static void joinRoom(String roomName) throws IOException {
         outputStream.println(JOIN_ROOM_COM + roomName);
+        inputStream.readLine();
     }
 
 }

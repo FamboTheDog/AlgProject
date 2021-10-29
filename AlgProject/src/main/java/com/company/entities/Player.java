@@ -43,11 +43,11 @@ public class Player implements RenderObject {
 
     @Override
     public void update() {
-        String playerPosition = getX() + " " + getY() + " " + getAngle();
-        writer.println(playerPosition);
         if (left)  angle -= 0.1;
         if (right) angle += 0.1;
         if (up)    moveUp();
+         String playerPosition = getX() + " " + getY() + " " + getAngle();
+         writer.println(playerPosition);
     }
     @Getter final double HEIGHT = 20;
     final double PLAYER_WIDTH = Math.sqrt(HEIGHT * HEIGHT +

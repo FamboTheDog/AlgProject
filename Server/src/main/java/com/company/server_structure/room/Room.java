@@ -7,20 +7,17 @@ import lombok.Getter;
 import java.io.*;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Room implements Runnable {
 
-    @Getter private LinkedHashMap<Socket, SocketInformation> players = new LinkedHashMap<>();
-    boolean running = true;
+    @Getter private final LinkedHashMap<Socket, SocketInformation> players = new LinkedHashMap<>();
+    private boolean running = true;
 
     public Room(Socket creatorSocket, String serverName) throws IOException {
         ActiveRooms.addActiveRoom(serverName, this);
 
         PrintWriter creatorWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(creatorSocket.getOutputStream())), true);
-        // creatorWriter.write("150 150");
         SocketInformation creatorInformation = new SocketInformation(new BufferedReader(new InputStreamReader(creatorSocket.getInputStream())), creatorWriter);
         players.put(creatorSocket, creatorInformation); // default location for spawn, will be changed later
     }

@@ -30,7 +30,6 @@ public class User implements Runnable{
         System.out.println("waiting for user");
         BufferedReader socketReader = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
         PrintWriter socketWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(currentSocket.getOutputStream())), true);
-        // ObjectOutputStream objectWriter = new ObjectOutputStream(currentSocket.getOutputStream());
 
         SocketInformation socketInformation = new SocketInformation(socketReader, socketWriter);
 
@@ -55,6 +54,7 @@ public class User implements Runnable{
                     case "JOIN" -> {
                         terminalInput = true;
                         ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], socketInformation);
+                        socketWriter.println("joined");
                         logger.log(Level.INFO, "User joined");
                     }
                     default -> logger.log(Level.WARNING,

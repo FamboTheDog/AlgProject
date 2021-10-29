@@ -34,7 +34,6 @@ public class GameLoop implements Runnable{
 
         Player player = new Player(ServerConnection.getOutputStream());
         gameObjects.add(player);
-        updater.setPlayer(player);
         graphics.addKeyBinds(player);
     }
 
