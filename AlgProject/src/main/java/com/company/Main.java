@@ -1,24 +1,20 @@
 package com.company;
 
 import com.company.gameloop.GameLoop;
-import com.company.gameloop.MPUpdater;
+import com.company.gameloop.Updater;
 import com.company.gameloop.RenderLayer;
-import com.company.gameloop.SPUpdater;
 import com.company.menu.Menu;
-import com.company.multiplayer.ServerConnection;
 import lombok.Getter;
 
 import javax.swing.*;
 import java.awt.*;
-import java.io.*;
-import java.net.Socket;
 
 public class Main {
 
-    private static String GAME_NAME = "Battleships";
-    @Getter private static JPanel viewContainer = new JPanel();
+    @Getter private static final JPanel viewContainer = new JPanel();
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
+        final String GAME_NAME = "Battleships";
         JFrame window = new JFrame(GAME_NAME);
         window.setSize(new Dimension(640,480));
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -26,13 +22,12 @@ public class Main {
         window.setResizable(true);
         window.setVisible(true);
 
-        GameLoop gameLoop = new GameLoop(new RenderLayer(), new SPUpdater());
-        GameLoop MPGameLoop = new GameLoop(new RenderLayer(), new MPUpdater());
+        GameLoop MPGameLoop = new GameLoop(new RenderLayer(), new Updater());
 
         viewContainer.setLayout(new BorderLayout());
         window.add(viewContainer);
 
-        viewContainer.add(new Menu(gameLoop, MPGameLoop, viewContainer), BorderLayout.CENTER);
+        viewContainer.add(new Menu(MPGameLoop, viewContainer), BorderLayout.CENTER);
 
         window.revalidate();
         window.repaint();
