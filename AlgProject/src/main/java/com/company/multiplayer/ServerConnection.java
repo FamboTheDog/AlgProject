@@ -1,6 +1,5 @@
 package com.company.multiplayer;
 
-import com.company.gameloop.Updater;
 import com.company.multiplayer.errors.ServerResponseError;
 import lombok.Getter;
 
@@ -34,8 +33,6 @@ final public class ServerConnection {
             socket = new Socket(ip, port);
             outputStream = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
             inputStream  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-
-            Updater.setSocketReader(inputStream);
         }catch (IOException e){
             System.out.println("multiplayer is not working for you");
         }
