@@ -6,11 +6,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.libgdx.screens.GameScreen;
 import com.company.libgdx.util.BodyHelper;
 import com.company.libgdx.util.Constants;
 import com.company.libgdx.util.ContactType;
-import com.company.multiplayer.ServerConnection;
 import lombok.Getter;
 
 import java.io.PrintWriter;
@@ -42,8 +42,9 @@ public class Player implements GameObject {
     public Player(float x, float y, GameScreen gameScreen){
         this.x = x;
         this.y = y;
-        this.writer = ServerConnection.getOutputStream();
+        this.writer = UserCommunicationProtocol.getOutputStream();
         this.texture = new Texture("white.png");
+        this.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         this.gameScreen = gameScreen;
         this.body = BodyHelper.createBody(x, y, PLAYER_SIZE, PLAYER_SIZE, false
                 , 10000, gameScreen.getWorld(), ContactType.PLAYER);

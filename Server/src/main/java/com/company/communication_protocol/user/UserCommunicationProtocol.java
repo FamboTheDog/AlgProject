@@ -1,15 +1,12 @@
-package com.company.multiplayer;
+package com.company.communication_protocol.user;
 
-import com.company.multiplayer.errors.ServerResponseError;
+import com.company.communication_protocol.errors.ServerResponseError;
 import lombok.Getter;
 
 import java.io.*;
 import java.net.Socket;
 
-final public class ServerConnection {
-
-    static final int defaultPort = 2020;
-    static final String defaultIP = "localhost";
+public class UserCommunicationProtocol {
 
     @Getter static Socket socket;
 
@@ -19,10 +16,10 @@ final public class ServerConnection {
     private static boolean alreadyInitialized = false;
 
     // overriding the default constructor to a private one, so this class can't be instantiated
-    private ServerConnection(){}
+    private UserCommunicationProtocol(){}
 
     public static void initialize() {
-        initialize(defaultIP, defaultPort);
+        initialize(Constants.defaultIP, Constants.defaultPort);
     }
 
     public static void initialize(String ip, int port) {
@@ -38,14 +35,20 @@ final public class ServerConnection {
         }
     }
 
-    static final String ROOM_CREATION_COM = "CREATE ";
-    public static void createRoom(String message) {
-        outputStream.println(ROOM_CREATION_COM + message);
+    public static void closeConnection() throws IOException {
+        outputStream.close();
+        inputStream.close();
+        socket.close();
     }
 
-    static final String LIST_ROOM_COM = "LIST";
+    public static void createRoom(String message) throws IOException {
+        outputStream.println(CommandType.CREATE + " " + message);
+        // wait for server to respond
+        inputStream.readLine();
+    }
+
     public static String[] listRooms() {
-        outputStream.println(LIST_ROOM_COM);
+        outputStream.println(CommandType.LIST);
         try {
             return inputStream.readLine().split(";");
         } catch (IOException e) {
@@ -59,9 +62,8 @@ final public class ServerConnection {
         return new String[]{};
     }
 
-    static final String JOIN_ROOM_COM = "JOIN ";
     public static void joinRoom(String roomName) throws IOException {
-        outputStream.println(JOIN_ROOM_COM + roomName);
+        outputStream.println(CommandType.JOIN + " " + roomName);
         inputStream.readLine();
     }
 

@@ -1,6 +1,5 @@
 package com.company.server_structure.room;
 
-import com.company.server_structure.ActiveRooms;
 import com.company.data.SocketInformation;
 import lombok.Getter;
 

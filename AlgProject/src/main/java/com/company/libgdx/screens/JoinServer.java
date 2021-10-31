@@ -9,8 +9,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.libgdx.util.Styles;
-import com.company.multiplayer.ServerConnection;
 import lombok.SneakyThrows;
 
 
@@ -38,7 +38,7 @@ public class JoinServer extends ScreenAdapter {
     }
 
     public void loadRooms(){
-        String[] servers = ServerConnection.listRooms();
+        String[] servers = UserCommunicationProtocol.listRooms();
         if (servers[0].equals("EMPTY")) {
             System.out.println("shit's empty");
         }
@@ -55,7 +55,7 @@ public class JoinServer extends ScreenAdapter {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
                     System.out.println(actor.getName());
-                    ServerConnection.joinRoom(actor.getName());
+                    UserCommunicationProtocol.joinRoom(actor.getName());
                     parent.getGameScreen().startGame();
                     parent.setScreen(parent.getGameScreen());
                 }

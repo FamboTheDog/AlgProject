@@ -10,7 +10,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.company.multiplayer.ServerConnection;
+import com.company.communication_protocol.user.UserCommunicationProtocol;
+import lombok.SneakyThrows;
 
 public class CreateServer extends ScreenAdapter {
 
@@ -42,9 +43,10 @@ public class CreateServer extends ScreenAdapter {
         table.add(startRoom).fillX().uniformX();
 
         startRoom.addListener(new ChangeListener() {
+            @SneakyThrows
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                ServerConnection.createRoom("DefaultServerName");
+                UserCommunicationProtocol.createRoom("DefaultServerName");
                 parent.getGameScreen().startGame();
                 parent.setScreen(parent.getGameScreen());
             }
