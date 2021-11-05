@@ -4,10 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Event;
+import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.libgdx.util.Styles;
@@ -40,7 +43,19 @@ public class JoinServer extends ScreenAdapter {
     public void loadRooms(){
         String[] servers = UserCommunicationProtocol.listRooms();
         if (servers[0].equals("EMPTY")) {
-            System.out.println("shit's empty");
+            table.add(new Label("There are currently no active rooms. Would you like to create one?",
+                    Styles.getLabelStyle()));
+            TextButton createServerInstead = new TextButton("Create Room", Styles.getButtonStyle());
+            createServerInstead.addListener(new ChangeListener() {
+                @SneakyThrows
+                @Override
+                public void changed(ChangeEvent event, Actor actor) {
+                    parent.setScreen(parent.getCreateServer());
+                }
+            });
+            table.row();
+            table.add(createServerInstead);
+            return;
         }
 
         table.clearChildren();
