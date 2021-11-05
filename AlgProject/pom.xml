@@ -55,5 +55,10 @@
             <artifactId>gdx-openal</artifactId>
             <version>0.9.9</version>
         </dependency>
+        <dependency>
+            <groupId>groupId</groupId>
+            <artifactId>Server</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>
