@@ -70,8 +70,8 @@ public class JoinServer extends ScreenAdapter {
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
                     System.out.println(actor.getName());
-                    UserCommunicationProtocol.joinRoom(actor.getName());
-                    parent.getGameScreen().startGame();
+                    String serverResponse = UserCommunicationProtocol.joinRoom(actor.getName());
+                    parent.getGameScreen().startGame(serverResponse);
                     parent.setScreen(parent.getGameScreen());
                 }
             });

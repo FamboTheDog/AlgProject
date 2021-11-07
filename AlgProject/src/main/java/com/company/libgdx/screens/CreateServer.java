@@ -70,8 +70,8 @@ public class CreateServer extends ScreenAdapter {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
                 startRoom.removeListener(startRoom.getClickListener());
-                UserCommunicationProtocol.createRoom(serverName.getText());
-                parent.getGameScreen().startGame();
+                String serverResponse = UserCommunicationProtocol.createRoom(serverName.getText());
+                parent.getGameScreen().startGame(serverResponse);
                 parent.setScreen(parent.getGameScreen());
             }
         });

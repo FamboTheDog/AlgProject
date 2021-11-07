@@ -1,9 +1,7 @@
 package com.company;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.badlogic.gdx.graphics.GL20;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.libgdx.screens.Boot;
 import lombok.Getter;
@@ -20,10 +18,7 @@ public class Main {
         config.setIdleFPS(60);
         config.useVsync(true);
 
-        final String GAME_NAME = "Battleships";
-        config.setTitle(GAME_NAME);
-
-        config.setWindowedMode(640,480);
+        config.setBackBufferConfig(8,8,8,8,8,16,8);
 
         UserCommunicationProtocol.initialize();
 

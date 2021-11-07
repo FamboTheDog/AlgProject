@@ -28,9 +28,6 @@ public class Enemy implements GameObject {
     GameScreen gameScreen;
 
     private final static float DEFAULT_SPAWN_POINT = 150;
-//    public Enemy(GameScreen gameScreen){
-//        this(DEFAULT_SPAWN_POINT, DEFAULT_SPAWN_POINT, gameScreen);
-//    }
 
     private Texture texture;
     public Enemy(float x, float y, float angle, GameScreen gameScreen){

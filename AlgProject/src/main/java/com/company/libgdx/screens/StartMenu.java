@@ -10,7 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.libgdx.util.Styles;
+import lombok.SneakyThrows;
 
 public class StartMenu extends ScreenAdapter {
 
@@ -43,8 +45,10 @@ public class StartMenu extends ScreenAdapter {
         table.add(exit).fillX().uniformX();
 
         exit.addListener(new ChangeListener() {
+            @SneakyThrows
             @Override
             public void changed(ChangeEvent event, Actor actor) {
+                UserCommunicationProtocol.closeConnection();
                 Gdx.app.exit();
             }
         });
@@ -59,7 +63,6 @@ public class StartMenu extends ScreenAdapter {
         joinRoom.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                // parent.changeScreen(Box2DTutorial.PREFERENCES);
                 parent.setScreen(parent.getJoinServer());
             }
         });

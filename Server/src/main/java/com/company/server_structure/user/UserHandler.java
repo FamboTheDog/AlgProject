@@ -1,7 +1,7 @@
 package com.company.server_structure.user;
 
 import com.company.communication_protocol.user.CommandType;
-import com.company.data.SocketInformation;
+import com.company.data.UserInformation;
 import com.company.errors.RoomNameException;
 import com.company.server_structure.room.ActiveRooms;
 import com.company.server_structure.room.Room;
@@ -13,31 +13,30 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-public class User implements Runnable{
+public class UserHandler implements Runnable{
 
     private final Socket currentSocket;
     private final UUID id;
 
-    public User(Socket currentSocket) {
+    public UserHandler(Socket currentSocket) {
         this.currentSocket = currentSocket;
         this.id = UUID.randomUUID();
     }
 
-    private final Logger logger = Logger.getLogger(User.class.getName());
+    private final Logger logger = Logger.getLogger(UserHandler.class.getName());
 
-    private BufferedReader socketReader;
-    private PrintWriter socketWriter;
+    private UserInformation userInformation;
 
     @SneakyThrows
     @Override
     public void run() {
         System.out.println("waiting for user");
-        socketReader = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
-        socketWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(currentSocket.getOutputStream())), true);
+        BufferedReader socketReader = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
+        PrintWriter    socketWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(currentSocket.getOutputStream())), true);
 
-        SocketInformation socketInformation = new SocketInformation(socketReader, socketWriter);
+        userInformation = new UserInformation(socketReader, socketWriter);
 
-        ActiveUsers.addPlayer(id, socketInformation);
+        ActiveUsers.addPlayer(id, userInformation);
 
         boolean terminalInput = false;
         while(!terminalInput) {
@@ -69,8 +68,8 @@ public class User implements Runnable{
                     }
                     case JOIN -> {
                         terminalInput = true;
-                        ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], socketInformation);
-                        socketWriter.println("joined");
+                        ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], userInformation);
+                        socketWriter.println(ActiveRooms.getActiveRoomByName(commands[1]).getAsteroidsPositions());
                         logger.log(Level.INFO, "User joined");
                     }
                     default -> {
@@ -104,13 +103,11 @@ public class User implements Runnable{
         }
 
         try {
-            Room room = new Room(currentSocket, serverName);
+            Room room = new Room(currentSocket, userInformation, serverName);
             room.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        socketWriter.println("Room created");
     }
 
 }
