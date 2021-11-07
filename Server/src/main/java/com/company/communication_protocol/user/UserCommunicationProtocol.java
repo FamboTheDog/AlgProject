@@ -8,6 +8,9 @@ import java.net.Socket;
 
 public class UserCommunicationProtocol {
 
+    public static final String commandSeparator = "&";
+    public static final String parameterSeparator = ";";
+
     @Getter static Socket socket;
 
     @Getter private static BufferedReader inputStream;

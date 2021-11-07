@@ -1,8 +1,8 @@
 package com.company.server_structure.room;
 
+import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.data.UserInformation;
 import com.company.server_structure.room.entities.Asteroids;
-import com.company.server_structure.user.UserHandler;
 import lombok.Getter;
 
 import java.io.*;
@@ -19,9 +19,9 @@ public class Room implements Runnable {
     @Getter private final LinkedHashMap<Socket, UserInformation> players = new LinkedHashMap<>();
     private boolean running = true;
 
-    private String serverName;
+    private final String serverName;
 
-    @Getter private final StringBuilder asteroidsPositions;
+    @Getter private final StringBuilder positions;
 
     private final Logger logger = Logger.getLogger(Room.class.getName());
 
@@ -31,14 +31,18 @@ public class Room implements Runnable {
 
         players.put(creatorSocket, creatorData); // default location for spawn, will be changed later
 
+        positions = new StringBuilder();
+        positions.append("400" + UserCommunicationProtocol.parameterSeparator +
+                "150"+ UserCommunicationProtocol.parameterSeparator
+                +"0" + UserCommunicationProtocol.commandSeparator); // default spawn point
+
         Random rng = new Random();
-        asteroidsPositions = new StringBuilder();
         for (int i = 0; i < rng.nextInt(3,6); i++) {
-            asteroidsPositions.append(Asteroids.createAsteroid()).append(";");
+            positions.append(Asteroids.createAsteroid()).append(UserCommunicationProtocol.parameterSeparator);
         }
-        asteroidsPositions.deleteCharAt(asteroidsPositions.length() - 1);
-        System.out.println(asteroidsPositions);
-        creatorData.getWriter().println(asteroidsPositions);
+        positions.deleteCharAt(positions.length() - 1);
+        System.out.println(positions);
+        creatorData.getWriter().println(positions);
     }
 
     public void start(){
@@ -78,6 +82,6 @@ public class Room implements Runnable {
             }
         }
         ActiveRooms.getActiveRooms().remove(serverName);
-        logger.log(Level.INFO, "Room started");
+        logger.log(Level.INFO, "Room stopped");
     }
 }

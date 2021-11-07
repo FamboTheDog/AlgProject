@@ -69,9 +69,12 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void startGame(String serverCommands) {
-        Player player = new Player(this);
+        String[] individualPositions = serverCommands.split(UserCommunicationProtocol.commandSeparator);
+        String[] playerPositions = individualPositions[0].split(UserCommunicationProtocol.parameterSeparator);
+        Player player = new Player(Float.parseFloat(playerPositions[0]), Float.parseFloat(playerPositions[1]),
+                Float.parseFloat(playerPositions[2]), this);
         gameObjects.add(player);
-        String[] asteroids = serverCommands.split(";");
+        String[] asteroids = individualPositions[1].split(UserCommunicationProtocol.parameterSeparator);
         for (String asteroid : asteroids) {
             gameObjects.add(new Asteroid(asteroid));
         }
