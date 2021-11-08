@@ -1,7 +1,7 @@
 package com.company.server_structure.user;
 
 import com.company.communication_protocol.user.CommandType;
-import com.company.data.UserInformation;
+import com.company.data.UserCommunication;
 import com.company.errors.RoomNameException;
 import com.company.server_structure.room.ActiveRooms;
 import com.company.server_structure.room.Room;
@@ -25,7 +25,7 @@ public class UserHandler implements Runnable{
 
     private final Logger logger = Logger.getLogger(UserHandler.class.getName());
 
-    private UserInformation userInformation;
+    private UserCommunication userCommunication;
 
     @SneakyThrows
     @Override
@@ -34,9 +34,9 @@ public class UserHandler implements Runnable{
         BufferedReader socketReader = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
         PrintWriter    socketWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(currentSocket.getOutputStream())), true);
 
-        userInformation = new UserInformation(socketReader, socketWriter);
+        userCommunication = new UserCommunication(socketReader, socketWriter);
 
-        ActiveUsers.addPlayer(id, userInformation);
+        ActiveUsers.addPlayer(id, userCommunication);
 
         boolean terminalInput = false;
         while(!terminalInput) {
@@ -68,7 +68,7 @@ public class UserHandler implements Runnable{
                     }
                     case JOIN -> {
                         terminalInput = true;
-                        ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], userInformation);
+                        ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], userCommunication);
                         socketWriter.println(ActiveRooms.getActiveRoomByName(commands[1]).getPositions());
                         logger.log(Level.INFO, "User joined");
                     }
@@ -103,7 +103,7 @@ public class UserHandler implements Runnable{
         }
 
         try {
-            Room room = new Room(currentSocket, userInformation, serverName);
+            Room room = new Room(currentSocket, userCommunication, serverName);
             room.start();
         } catch (IOException e) {
             e.printStackTrace();

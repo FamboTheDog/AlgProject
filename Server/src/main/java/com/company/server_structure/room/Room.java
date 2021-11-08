@@ -1,7 +1,7 @@
 package com.company.server_structure.room;
 
 import com.company.communication_protocol.user.UserCommunicationProtocol;
-import com.company.data.UserInformation;
+import com.company.data.UserCommunication;
 import com.company.server_structure.room.entities.Asteroids;
 import lombok.Getter;
 
@@ -16,7 +16,7 @@ import java.util.logging.Logger;
 
 public class Room implements Runnable {
 
-    @Getter private final LinkedHashMap<Socket, UserInformation> players = new LinkedHashMap<>();
+    @Getter private final LinkedHashMap<Socket, UserCommunication> players = new LinkedHashMap<>();
     private boolean running = true;
 
     private final String serverName;
@@ -25,7 +25,7 @@ public class Room implements Runnable {
 
     private final Logger logger = Logger.getLogger(Room.class.getName());
 
-    public Room(Socket creatorSocket, UserInformation creatorData, String serverName) throws IOException {
+    public Room(Socket creatorSocket, UserCommunication creatorData, String serverName) throws IOException {
         this.serverName = serverName;
         ActiveRooms.addActiveRoom(serverName, this);
 
