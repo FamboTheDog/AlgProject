@@ -1,5 +1,6 @@
 package com.company.server_structure;
 
+import com.company.server_structure.user.UserHandler;
 import lombok.Setter;
 
 import java.io.IOException;
@@ -18,7 +19,7 @@ public class Server {
     public void startServer() throws IOException {
         while(running){
             System.out.println("waiting");
-            new Thread(new User(socket.accept())).start();
+            new Thread(new UserHandler(socket.accept())).start();
             System.out.println("accepted");
         }
     }

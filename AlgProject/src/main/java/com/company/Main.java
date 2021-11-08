@@ -1,36 +1,28 @@
 package com.company;
 
-import com.company.gameloop.GameLoop;
-import com.company.gameloop.Updater;
-import com.company.gameloop.RenderLayer;
-import com.company.menu.Menu;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
+import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
+import com.company.communication_protocol.user.UserCommunicationProtocol;
+import com.company.libgdx.screens.Boot;
 import lombok.Getter;
 
 import javax.swing.*;
-import java.awt.*;
+
 
 public class Main {
 
     @Getter private static final JPanel viewContainer = new JPanel();
 
     public static void main(String[] args) {
-        final String GAME_NAME = "Battleships";
-        JFrame window = new JFrame(GAME_NAME);
-        window.setSize(new Dimension(640,480));
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setLocationRelativeTo(null);
-        window.setResizable(true);
-        window.setVisible(true);
+        Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
+        config.setIdleFPS(60);
+        config.useVsync(true);
 
-        GameLoop MPGameLoop = new GameLoop(new RenderLayer(), new Updater());
+        config.setBackBufferConfig(8,8,8,8,8,16,8);
 
-        viewContainer.setLayout(new BorderLayout());
-        window.add(viewContainer);
+        UserCommunicationProtocol.initialize();
 
-        viewContainer.add(new Menu(MPGameLoop, viewContainer), BorderLayout.CENTER);
-
-        window.revalidate();
-        window.repaint();
+        new Lwjgl3Application(new Boot(), config);
     }
 
 }
