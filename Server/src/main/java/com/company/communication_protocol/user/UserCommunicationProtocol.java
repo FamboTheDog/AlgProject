@@ -8,6 +8,9 @@ import java.net.Socket;
 
 public class UserCommunicationProtocol {
 
+    public static final String commandSeparator = "&";
+    public static final String parameterSeparator = ";";
+
     @Getter static Socket socket;
 
     @Getter private static BufferedReader inputStream;
@@ -41,10 +44,10 @@ public class UserCommunicationProtocol {
         socket.close();
     }
 
-    public static void createRoom(String message) throws IOException {
+    public static String createRoom(String message) throws IOException {
         outputStream.println(CommandType.CREATE + " " + message);
-        // wait for server to respond
-        inputStream.readLine();
+        // server sends back information about the map
+        return inputStream.readLine();
     }
 
     public static String[] listRooms() {
@@ -62,9 +65,9 @@ public class UserCommunicationProtocol {
         return new String[]{};
     }
 
-    public static void joinRoom(String roomName) throws IOException {
+    public static String joinRoom(String roomName) throws IOException {
         outputStream.println(CommandType.JOIN + " " + roomName);
-        inputStream.readLine();
+        return inputStream.readLine();
     }
 
 }

@@ -1,10 +1,8 @@
-import com.company.communication_protocol.user.UserResponseProtocol;
 import com.company.server_structure.Server;
 import com.company.server_structure.room.ActiveRooms;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.server_structure.user.ActiveUsers;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;

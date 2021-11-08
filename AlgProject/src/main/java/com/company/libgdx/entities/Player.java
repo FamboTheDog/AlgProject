@@ -35,13 +35,14 @@ public class Player implements GameObject {
 
     private final static float DEFAULT_SPAWN_POINT = 150;
     public Player(GameScreen gameScreen){
-        this(DEFAULT_SPAWN_POINT, DEFAULT_SPAWN_POINT, gameScreen);
+        this(DEFAULT_SPAWN_POINT, DEFAULT_SPAWN_POINT, 0, gameScreen);
     }
 
     private Texture texture;
-    public Player(float x, float y, GameScreen gameScreen){
+    public Player(float x, float y, float angle, GameScreen gameScreen){
         this.x = x;
         this.y = y;
+        this.angle = angle;
         this.writer = UserCommunicationProtocol.getOutputStream();
         this.texture = new Texture("white.png");
         this.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);

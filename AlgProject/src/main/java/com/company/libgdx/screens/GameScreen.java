@@ -10,6 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
+import com.company.libgdx.entities.Asteroid;
 import com.company.libgdx.entities.Enemy;
 import com.company.libgdx.entities.GameObject;
 import com.company.libgdx.entities.Player;
@@ -67,8 +68,15 @@ public class GameScreen extends ScreenAdapter {
         batch.end();
     }
 
-    public void startGame() {
-        Player player = new Player(this);
+    public void startGame(String serverCommands) {
+        String[] individualPositions = serverCommands.split(UserCommunicationProtocol.commandSeparator);
+        String[] playerPositions = individualPositions[0].split(UserCommunicationProtocol.parameterSeparator);
+        Player player = new Player(Float.parseFloat(playerPositions[0]), Float.parseFloat(playerPositions[1]),
+                Float.parseFloat(playerPositions[2]), this);
         gameObjects.add(player);
+        String[] asteroids = individualPositions[1].split(UserCommunicationProtocol.parameterSeparator);
+        for (String asteroid : asteroids) {
+            gameObjects.add(new Asteroid(asteroid));
+        }
     }
 }
