@@ -1,6 +1,5 @@
 package com.company.server_structure.room;
 
-import com.company.server_structure.ActiveRooms;
 import com.company.data.SocketInformation;
 import lombok.Getter;
 
@@ -14,7 +13,10 @@ public class Room implements Runnable {
     @Getter private final LinkedHashMap<Socket, SocketInformation> players = new LinkedHashMap<>();
     private boolean running = true;
 
+    private String serverName;
+
     public Room(Socket creatorSocket, String serverName) throws IOException {
+        this.serverName = serverName;
         ActiveRooms.addActiveRoom(serverName, this);
 
         PrintWriter creatorWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(creatorSocket.getOutputStream())), true);
@@ -57,6 +59,7 @@ public class Room implements Runnable {
                 writeTo.println("END");
             }
         }
+        ActiveRooms.getActiveRooms().remove(serverName);
         System.out.println("Room stopped");
     }
 }

@@ -1,21 +1,16 @@
 package com.company.libgdx.entities;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.libgdx.screens.GameScreen;
 import com.company.libgdx.util.BodyHelper;
-import com.company.libgdx.util.Constants;
 import com.company.libgdx.util.ContactType;
-import com.company.multiplayer.ServerConnection;
 import lombok.Getter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 
 public class Enemy implements GameObject {
 
@@ -42,7 +37,7 @@ public class Enemy implements GameObject {
         this.x = x;
         this.y = y;
         this.angle = angle;
-        this.reader = ServerConnection.getInputStream();
+        this.reader = UserCommunicationProtocol.getInputStream();
         this.texture = new Texture("white.png");
         this.gameScreen = gameScreen;
         this.body = BodyHelper.createBody(x, y, PLAYER_SIZE, PLAYER_SIZE, false

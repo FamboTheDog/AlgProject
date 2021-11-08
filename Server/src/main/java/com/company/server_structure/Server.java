@@ -1,5 +1,6 @@
 package com.company.server_structure;
 
+import com.company.server_structure.user.User;
 import lombok.Setter;
 
 import java.io.IOException;

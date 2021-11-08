@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.company.libgdx.util.Styles;
 
 public class StartMenu extends ScreenAdapter {
 
@@ -31,24 +32,16 @@ public class StartMenu extends ScreenAdapter {
         table.setFillParent(true);
         stage.addActor(table);
 
-        // table.setBackground(new TiledDrawable(background));
+        TextButton createRoom = new TextButton("Create room", Styles.getButtonStyle());
+        TextButton joinRoom = new TextButton("Join room", Styles.getButtonStyle());
+        TextButton exit = new TextButton("Exit", Styles.getButtonStyle());
 
-
-        //create buttons
-        TextButton.TextButtonStyle style = new TextButton.TextButtonStyle();
-        style.font = new BitmapFont();
-        TextButton createRoom = new TextButton("Create room", style);
-        TextButton joinRoom = new TextButton("Join room", style);
-        TextButton exit = new TextButton("Exit", style);
-
-        //add buttons to table
         table.add(createRoom).fillX().uniformX();
         table.row().pad(10, 0, 10, 0);
         table.add(joinRoom).fillX().uniformX();
         table.row();
         table.add(exit).fillX().uniformX();
 
-        // create button listeners
         exit.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
