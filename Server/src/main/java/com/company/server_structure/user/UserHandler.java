@@ -1,6 +1,7 @@
 package com.company.server_structure.user;
 
 import com.company.communication_protocol.user.CommandType;
+import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.data.UserCommunication;
 import com.company.errors.RoomNameException;
 import com.company.server_structure.room.ActiveRooms;
@@ -69,7 +70,8 @@ public class UserHandler implements Runnable{
                     case JOIN -> {
                         terminalInput = true;
                         ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], userCommunication);
-                        socketWriter.println(ActiveRooms.getActiveRoomByName(commands[1]).getPositions());
+                        // logger.log(Level.INFO, ActiveRooms.getActiveRoomByName(commands[1]).getPositions().toString());
+                        socketWriter.println(Room.getDEFAULT_POSITION() + UserCommunicationProtocol.commandSeparator + ActiveRooms.getActiveRoomByName(commands[1]).getPositions());
                         logger.log(Level.INFO, "User joined");
                     }
                     default -> {

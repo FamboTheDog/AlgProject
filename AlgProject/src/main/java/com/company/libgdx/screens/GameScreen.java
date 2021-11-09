@@ -26,7 +26,7 @@ public class GameScreen extends ScreenAdapter {
     @Getter private World world;
     private Box2DDebugRenderer box2DDebugRenderer;
 
-    private ArrayList<GameObject> gameObjects = new ArrayList<>();
+    private final ArrayList<GameObject> gameObjects = new ArrayList<>();
 
     public GameScreen(OrthographicCamera camera) {
         this.camera = camera;
@@ -69,12 +69,28 @@ public class GameScreen extends ScreenAdapter {
     }
 
     public void startGame(String serverCommands) {
+        // this is incredibly ugly, should be refactored, but I'm to lazy for it now
+        // it's now working, refactor it now!
+        System.out.println(serverCommands);
+        System.out.println("start game was called");
+
         String[] individualPositions = serverCommands.split(UserCommunicationProtocol.commandSeparator);
         String[] playerPositions = individualPositions[0].split(UserCommunicationProtocol.parameterSeparator);
         Player player = new Player(Float.parseFloat(playerPositions[0]), Float.parseFloat(playerPositions[1]),
                 Float.parseFloat(playerPositions[2]), this);
         gameObjects.add(player);
-        String[] asteroids = individualPositions[1].split(UserCommunicationProtocol.parameterSeparator);
+
+        String[] asteroids;
+        if (individualPositions.length > 2) {
+            String[] enemyPosition = individualPositions[1].split(UserCommunicationProtocol.parameterSeparator);
+            Enemy enemy = new Enemy(Float.parseFloat(enemyPosition[0]), Float.parseFloat(enemyPosition[1]),
+                    Float.parseFloat(enemyPosition[2]), this);
+            gameObjects.add(enemy);
+            asteroids = individualPositions[2].split(UserCommunicationProtocol.parameterSeparator);
+        } else {
+            asteroids = individualPositions[1].split(UserCommunicationProtocol.parameterSeparator);
+        }
+
         for (String asteroid : asteroids) {
             gameObjects.add(new Asteroid(asteroid));
         }

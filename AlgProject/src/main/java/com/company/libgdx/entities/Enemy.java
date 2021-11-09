@@ -11,6 +11,7 @@ import lombok.Getter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Enemy implements GameObject {
 
@@ -43,8 +44,10 @@ public class Enemy implements GameObject {
 
     @Override
     public void update() {
+        System.out.println("1");
         try {
             String[] newPositions = reader.readLine().split(" ");
+            System.out.println(Arrays.toString(newPositions));
             this.x = Float.parseFloat(newPositions[0]);
             this.y = Float.parseFloat(newPositions[1]);
             this.angle = Float.parseFloat(newPositions[2]);

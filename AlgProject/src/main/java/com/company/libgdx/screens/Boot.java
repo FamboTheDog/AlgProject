@@ -11,9 +11,9 @@ public class Boot extends Game {
     @Getter private int screenWidth, screenHeight;
     private OrthographicCamera orthographicCamera;
     @Getter private StartMenu startMenu;
-    @Getter private CreateServer createServer;
+    @Getter private CreateRoom createRoom;
     @Getter private GameScreen gameScreen;
-    @Getter private JoinServer joinServer;
+    @Getter private JoinRoom joinRoom;
 
     public Boot(){
         bootInstance = this;
@@ -27,9 +27,9 @@ public class Boot extends Game {
         this.orthographicCamera.setToOrtho(false, screenWidth, screenHeight);
 
         this.startMenu = new StartMenu(this);
-        this.createServer = new CreateServer(this);
+        this.createRoom = new CreateRoom(this);
         this.gameScreen = new GameScreen(orthographicCamera);
-        this.joinServer = new JoinServer(this);
+        this.joinRoom = new JoinRoom(this);
 
         setScreen(startMenu);
     }

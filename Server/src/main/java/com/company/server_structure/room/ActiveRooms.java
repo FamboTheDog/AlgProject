@@ -1,6 +1,7 @@
 package com.company.server_structure.room;
 
 import com.company.data.UserCommunication;
+import com.company.data.UserInformation;
 import lombok.Getter;
 
 import java.net.Socket;
@@ -21,7 +22,7 @@ public class ActiveRooms {
     }
 
     public static void addPlayerToActiveRoom(Socket user, String addTo, UserCommunication userCommunication) {
-        activeRooms.get(addTo).getPlayers().put(user, userCommunication);
+        activeRooms.get(addTo).getPlayers().put(user, new UserInformation(userCommunication, 400f, 150f, 0f));
     }
 
     public static Room getActiveRoomByName(String name) {

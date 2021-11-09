@@ -13,6 +13,8 @@ import com.company.libgdx.util.Constants;
 import com.company.libgdx.util.ContactType;
 import lombok.Getter;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 public class Player implements GameObject {
@@ -28,22 +30,24 @@ public class Player implements GameObject {
     final float PLAYER_SIZE = 30;
 
     private final PrintWriter writer;
+    private final BufferedReader reader;
 
     private long lastShotTime = 0;
 
-    GameScreen gameScreen;
+    private GameScreen gameScreen;
 
     private final static float DEFAULT_SPAWN_POINT = 150;
     public Player(GameScreen gameScreen){
         this(DEFAULT_SPAWN_POINT, DEFAULT_SPAWN_POINT, 0, gameScreen);
     }
 
-    private Texture texture;
+    private final Texture texture;
     public Player(float x, float y, float angle, GameScreen gameScreen){
         this.x = x;
         this.y = y;
         this.angle = angle;
         this.writer = UserCommunicationProtocol.getOutputStream();
+        this.reader = UserCommunicationProtocol.getInputStream();
         this.texture = new Texture("white.png");
         this.texture.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
         this.gameScreen = gameScreen;
@@ -52,27 +56,50 @@ public class Player implements GameObject {
         velocity = new Vector2();
     }
 
-    Vector2 velocity;
+    private Vector2 velocity;
 
     public void moveUp(){
         velocity.set(0, moveSpeed);
         velocity.setAngleDeg(angle - 270);
-
     }
 
     @Override
     public void update() {
+        System.out.println("2");
         x = body.getPosition().x * Constants.getPPM() - (PLAYER_SIZE / 2);
         y = body.getPosition().y * Constants.getPPM() - (PLAYER_SIZE / 2);
         velocity.set(0, 0);
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) angle += 5;
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) angle -= 5;
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) moveUp();
+
+        String moves = "";
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            angle += 5;
+            moves += "LEFT;";
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            angle -= 5;
+            moves += "RIGHT;";
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            moveUp();
+            moves += "FORWARD;";
+        }
+
+        if (moves.length() > 0) moves = moves.substring(0, moves.length() - 1);
 
         body.setLinearVelocity(velocity);
 
-        String playerPosition = getX() + " " + getY() + " " + getAngle();
-        writer.println(playerPosition);
+        // String playerPosition = getX() + " " + getY() + " " + getAngle();
+        writer.println(moves);
+
+        try{
+            String newPosition = reader.readLine();
+            System.out.println(newPosition);
+            String[] newPlayerPosition = newPosition.split(" ");
+            this.x = Float.parseFloat(newPlayerPosition[0]);
+            this.y = Float.parseFloat(newPlayerPosition[1]);
+            this.angle = Float.parseFloat(newPlayerPosition[2]);
+        } catch (IOException ignored) {}
+        System.out.println("3");
     }
 
     @Override

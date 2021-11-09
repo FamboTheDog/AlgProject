@@ -23,12 +23,12 @@ import java.awt.*;
 import static java.awt.Color.BLACK;
 import static java.awt.Cursor.DEFAULT_CURSOR;
 
-public class CreateServer extends ScreenAdapter {
+public class CreateRoom extends ScreenAdapter {
 
     private Boot parent;
     private Stage stage;
 
-    public CreateServer(Boot parent) {
+    public CreateRoom(Boot parent) {
         this.parent = parent;
         // create stage and set it as input processor
         stage = new Stage(new ScreenViewport());
