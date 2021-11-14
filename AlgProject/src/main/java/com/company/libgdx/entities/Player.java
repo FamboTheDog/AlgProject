@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.company.communication_protocol.PlayerSize;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.libgdx.screens.GameScreen;
 import com.company.libgdx.util.BodyHelper;
@@ -19,27 +20,20 @@ import java.io.PrintWriter;
 
 public class Player implements GameObject {
 
-    private Body body;
+    private final Body body;
 
-    private float moveSpeed = 4;
-    @Getter private float angle = 0f;
+    private final float moveSpeed = 4;
+    @Getter private float angle;
 
     @Getter private float x;
     @Getter private float y;
 
-    final float PLAYER_SIZE = 30;
+    public static final float PLAYER_SIZE = PlayerSize.PLAYER_SIZE;
 
     private final PrintWriter writer;
     private final BufferedReader reader;
 
-    private long lastShotTime = 0;
-
-    private GameScreen gameScreen;
-
-    private final static float DEFAULT_SPAWN_POINT = 150;
-    public Player(GameScreen gameScreen){
-        this(DEFAULT_SPAWN_POINT, DEFAULT_SPAWN_POINT, 0, gameScreen);
-    }
+    private final GameScreen gameScreen;
 
     private final Texture texture;
     public Player(float x, float y, float angle, GameScreen gameScreen){
@@ -56,7 +50,7 @@ public class Player implements GameObject {
         velocity = new Vector2();
     }
 
-    private Vector2 velocity;
+    private final Vector2 velocity;
 
     public void moveUp(){
         velocity.set(0, moveSpeed);
@@ -65,7 +59,6 @@ public class Player implements GameObject {
 
     @Override
     public void update() {
-        System.out.println("2");
         x = body.getPosition().x * Constants.getPPM() - (PLAYER_SIZE / 2);
         y = body.getPosition().y * Constants.getPPM() - (PLAYER_SIZE / 2);
         velocity.set(0, 0);
@@ -82,6 +75,10 @@ public class Player implements GameObject {
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
             moveUp();
             moves += "FORWARD;";
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+            // todo make client side shooting
+            moves += "SHOOT;";
         }
 
         if (moves.length() > 0) moves = moves.substring(0, moves.length() - 1);

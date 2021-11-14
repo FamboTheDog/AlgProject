@@ -15,7 +15,7 @@ import java.util.Arrays;
 
 public class Enemy implements GameObject {
 
-    private Body body;
+    private final Body body;
 
     @Getter private float angle;
 
@@ -30,7 +30,7 @@ public class Enemy implements GameObject {
 
     private final static float DEFAULT_SPAWN_POINT = 150;
 
-    private Texture texture;
+    private final Texture texture;
     public Enemy(float x, float y, float angle, GameScreen gameScreen){
         this.x = x;
         this.y = y;

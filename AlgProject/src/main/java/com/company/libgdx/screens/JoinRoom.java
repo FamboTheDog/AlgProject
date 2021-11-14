@@ -17,9 +17,9 @@ import lombok.SneakyThrows;
 
 public class JoinRoom extends ScreenAdapter {
 
-    private Boot parent;
-    private Stage stage;
-    private Table table;
+    private final Boot parent;
+    private final Stage stage;
+    private final Table table;
 
     public JoinRoom(Boot parent) {
         this.parent = parent;

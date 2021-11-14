@@ -5,28 +5,19 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.libgdx.util.Styles;
 import lombok.SneakyThrows;
 
-import java.awt.*;
-
-import static java.awt.Color.BLACK;
-import static java.awt.Cursor.DEFAULT_CURSOR;
-
 public class CreateRoom extends ScreenAdapter {
 
-    private Boot parent;
-    private Stage stage;
+    private final Boot parent;
+    private final Stage stage;
 
     public CreateRoom(Boot parent) {
         this.parent = parent;

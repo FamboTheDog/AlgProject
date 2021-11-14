@@ -71,7 +71,7 @@ public class UserHandler implements Runnable{
                         terminalInput = true;
                         ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], userCommunication);
                         // logger.log(Level.INFO, ActiveRooms.getActiveRoomByName(commands[1]).getPositions().toString());
-                        socketWriter.println(Room.getDEFAULT_POSITION() + UserCommunicationProtocol.commandSeparator + ActiveRooms.getActiveRoomByName(commands[1]).getPositions());
+                        socketWriter.println(Room.getDEFAULT_POSITION() + UserCommunicationProtocol.COMMAND_SEPARATOR + ActiveRooms.getActiveRoomByName(commands[1]).getPositions());
                         logger.log(Level.INFO, "User joined");
                     }
                     default -> {
@@ -104,12 +104,8 @@ public class UserHandler implements Runnable{
             serverName = commands[1];
         }
 
-        try {
-            Room room = new Room(currentSocket, userCommunication, serverName);
-            room.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Room room = new Room(currentSocket, userCommunication, serverName);
+        room.start();
     }
 
 }

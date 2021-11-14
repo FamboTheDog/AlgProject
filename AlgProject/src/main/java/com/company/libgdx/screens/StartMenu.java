@@ -15,8 +15,8 @@ import lombok.SneakyThrows;
 
 public class StartMenu extends ScreenAdapter {
 
-    private Boot parent;
-    private Stage stage;
+    private final Boot parent;
+    private final Stage stage;
 
     public StartMenu(Boot parent) {
         this.parent = parent;
