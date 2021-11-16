@@ -1,0 +1,16 @@
+GENERAL:
+change the communication with the player, so the server determines where the player is located - !important
+write more tests
+display an error if the player is not able to connect to the server, or the server is not responding
+display an error if the player tries to make a room with an unacceptable name
+when creating a room, pressing enter should create the room
+
+BRANCH SPECIFIC:
+    shooting_and_asteroids
+        - Asteroids
+            - the asteroids should move in a random vector
+            - try to play a little with the shape of the asteroid
+            - when a bullet collides with an asteroid, it should split into 2 pieces
+        - Shooting
+            - on the server, check if the bullet has hit an enemy
+            - custom sprite?

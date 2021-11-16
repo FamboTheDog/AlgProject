@@ -1,7 +1,8 @@
 package com.company.server_structure.user;
 
 import com.company.communication_protocol.user.CommandType;
-import com.company.data.UserInformation;
+import com.company.communication_protocol.user.UserCommunicationProtocol;
+import com.company.data.UserCommunication;
 import com.company.errors.RoomNameException;
 import com.company.server_structure.room.ActiveRooms;
 import com.company.server_structure.room.Room;
@@ -25,7 +26,7 @@ public class UserHandler implements Runnable{
 
     private final Logger logger = Logger.getLogger(UserHandler.class.getName());
 
-    private UserInformation userInformation;
+    private UserCommunication userCommunication;
 
     @SneakyThrows
     @Override
@@ -34,9 +35,9 @@ public class UserHandler implements Runnable{
         BufferedReader socketReader = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
         PrintWriter    socketWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(currentSocket.getOutputStream())), true);
 
-        userInformation = new UserInformation(socketReader, socketWriter);
+        userCommunication = new UserCommunication(socketReader, socketWriter);
 
-        ActiveUsers.addPlayer(id, userInformation);
+        ActiveUsers.addPlayer(id, userCommunication);
 
         boolean terminalInput = false;
         while(!terminalInput) {
@@ -68,8 +69,9 @@ public class UserHandler implements Runnable{
                     }
                     case JOIN -> {
                         terminalInput = true;
-                        ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], userInformation);
-                        socketWriter.println(ActiveRooms.getActiveRoomByName(commands[1]).getPositions());
+                        ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], userCommunication);
+                        // logger.log(Level.INFO, ActiveRooms.getActiveRoomByName(commands[1]).getPositions().toString());
+                        socketWriter.println(Room.getDEFAULT_POSITION() + UserCommunicationProtocol.COMMAND_SEPARATOR + ActiveRooms.getActiveRoomByName(commands[1]).getPositions());
                         logger.log(Level.INFO, "User joined");
                     }
                     default -> {
@@ -102,12 +104,8 @@ public class UserHandler implements Runnable{
             serverName = commands[1];
         }
 
-        try {
-            Room room = new Room(currentSocket, userInformation, serverName);
-            room.start();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Room room = new Room(currentSocket, userCommunication, serverName);
+        room.start();
     }
 
 }

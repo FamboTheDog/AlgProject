@@ -31,6 +31,31 @@
             <version>${kotlin.version}</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>RELEASE</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.13.2</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!--        this is basically the math package of libgdx-->
+        <dependency>
+            <groupId>com.peterlavalle</groupId>
+            <artifactId>libgdx-degen.gdx.math</artifactId>
+            <version>0.9.6</version>
+        </dependency>
     </dependencies>
 
     <build>
@@ -83,9 +108,9 @@
     </build>
 
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.source>16</maven.compiler.source>
+        <maven.compiler.target>16</maven.compiler.target>
         <kotlin.version>1.6.0-RC</kotlin.version>
     </properties>
-    
+
 </project>

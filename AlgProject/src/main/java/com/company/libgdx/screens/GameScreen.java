@@ -10,10 +10,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
-import com.company.libgdx.entities.Asteroid;
-import com.company.libgdx.entities.Enemy;
-import com.company.libgdx.entities.GameObject;
-import com.company.libgdx.entities.Player;
+import com.company.libgdx.entities.*;
 import lombok.Getter;
 
 import java.io.IOException;
@@ -21,12 +18,12 @@ import java.util.ArrayList;
 
 public class GameScreen extends ScreenAdapter {
 
-    private OrthographicCamera camera;
-    private SpriteBatch batch;
-    @Getter private World world;
-    private Box2DDebugRenderer box2DDebugRenderer;
+    private final OrthographicCamera camera;
+    private final SpriteBatch batch;
+    @Getter private final World world;
+    private final Box2DDebugRenderer box2DDebugRenderer;
 
-    private ArrayList<GameObject> gameObjects = new ArrayList<>();
+    private final ArrayList<GameObject> gameObjects = new ArrayList<>();
 
     public GameScreen(OrthographicCamera camera) {
         this.camera = camera;
@@ -45,10 +42,16 @@ public class GameScreen extends ScreenAdapter {
         String line;
         try {
             while (!(line = UserCommunicationProtocol.getInputStream().readLine()).equals("END")) {
-                String[] newPlayerPositions = line.split(" ");
-                Enemy newPlayer = new Enemy(Float.parseFloat(newPlayerPositions[0]),
-                        Float.parseFloat(newPlayerPositions[1]), Float.parseFloat(newPlayerPositions[2]), this);
-                gameObjects.add(newPlayer);
+                if (line.startsWith("BULLET")) {
+                    String[] bulletPosition = line.split(UserCommunicationProtocol.PARAMETER_SEPARATOR);
+                    gameObjects.add(new Bullet(Float.parseFloat(bulletPosition[1]), Float.parseFloat(bulletPosition[2])));
+                } else {
+
+                    String[] newPlayerPositions = line.split(" ");
+                    Enemy newPlayer = new Enemy(Float.parseFloat(newPlayerPositions[0]),
+                            Float.parseFloat(newPlayerPositions[1]), Float.parseFloat(newPlayerPositions[2]), this);
+                    gameObjects.add(newPlayer);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -68,13 +71,32 @@ public class GameScreen extends ScreenAdapter {
         batch.end();
     }
 
+    /**
+     * Recreates the game state from the serverCommands
+     * @param serverCommands Server response that needs to be parsed into game objects
+     */
     public void startGame(String serverCommands) {
-        String[] individualPositions = serverCommands.split(UserCommunicationProtocol.commandSeparator);
-        String[] playerPositions = individualPositions[0].split(UserCommunicationProtocol.parameterSeparator);
+        // this is incredibly ugly, should be refactored, but I'm to lazy for it now
+        System.out.println(serverCommands);
+        System.out.println("start game was called");
+
+        String[] individualPositions = serverCommands.split(UserCommunicationProtocol.COMMAND_SEPARATOR);
+        String[] playerPositions = individualPositions[0].split(UserCommunicationProtocol.PARAMETER_SEPARATOR);
         Player player = new Player(Float.parseFloat(playerPositions[0]), Float.parseFloat(playerPositions[1]),
                 Float.parseFloat(playerPositions[2]), this);
         gameObjects.add(player);
-        String[] asteroids = individualPositions[1].split(UserCommunicationProtocol.parameterSeparator);
+
+        String[] asteroids;
+        if (individualPositions.length > 2) {
+            String[] enemyPosition = individualPositions[1].split(UserCommunicationProtocol.PARAMETER_SEPARATOR);
+            Enemy enemy = new Enemy(Float.parseFloat(enemyPosition[0]), Float.parseFloat(enemyPosition[1]),
+                    Float.parseFloat(enemyPosition[2]), this);
+            gameObjects.add(enemy);
+            asteroids = individualPositions[2].split(UserCommunicationProtocol.PARAMETER_SEPARATOR);
+        } else {
+            asteroids = individualPositions[1].split(UserCommunicationProtocol.PARAMETER_SEPARATOR);
+        }
+
         for (String asteroid : asteroids) {
             gameObjects.add(new Asteroid(asteroid));
         }

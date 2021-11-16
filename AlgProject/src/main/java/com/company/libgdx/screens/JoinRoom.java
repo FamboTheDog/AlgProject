@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
@@ -17,13 +15,13 @@ import com.company.libgdx.util.Styles;
 import lombok.SneakyThrows;
 
 
-public class JoinServer extends ScreenAdapter {
+public class JoinRoom extends ScreenAdapter {
 
-    private Boot parent;
-    private Stage stage;
-    private Table table;
+    private final Boot parent;
+    private final Stage stage;
+    private final Table table;
 
-    public JoinServer(Boot parent) {
+    public JoinRoom(Boot parent) {
         this.parent = parent;
         // create stage and set it as input processor
         stage = new Stage(new ScreenViewport());
@@ -50,7 +48,7 @@ public class JoinServer extends ScreenAdapter {
                 @SneakyThrows
                 @Override
                 public void changed(ChangeEvent event, Actor actor) {
-                    parent.setScreen(parent.getCreateServer());
+                    parent.setScreen(parent.getCreateRoom());
                 }
             });
             table.row();
@@ -69,10 +67,11 @@ public class JoinServer extends ScreenAdapter {
                 @SneakyThrows
                 @Override
                 public void changed(ChangeEvent changeEvent, Actor actor) {
-                    System.out.println(actor.getName());
                     String serverResponse = UserCommunicationProtocol.joinRoom(actor.getName());
+                    System.out.println("joined : " + serverResponse);
                     parent.getGameScreen().startGame(serverResponse);
                     parent.setScreen(parent.getGameScreen());
+                    joinButton.removeListener(this);
                 }
             });
             table.add(joinButton).uniformX();

@@ -1,3 +1,4 @@
+import com.company.communication_protocol.user.Constants;
 import com.company.server_structure.Server;
 import com.company.server_structure.room.ActiveRooms;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
@@ -17,7 +18,7 @@ public class ServerTest {
     static void setup() {
         new Thread(()->{
             try {
-                ServerSocket socket = new ServerSocket(2020);
+                ServerSocket socket = new ServerSocket(Constants.DEFAULT_PORT);
                 Server server = new Server(socket);
                 server.startServer();
             } catch (IOException e) {
@@ -28,7 +29,7 @@ public class ServerTest {
 
     @Test
     void testConnections() throws IOException {
-        Socket socket = new Socket("localhost", 2020);
+        Socket socket = new Socket(Constants.DEFAULT_IP, Constants.DEFAULT_PORT);
 
         assertEquals(1, ActiveUsers.getActivePlayers().size());
 

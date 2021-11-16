@@ -11,10 +11,11 @@ import lombok.Getter;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class Enemy implements GameObject {
 
-    private Body body;
+    private final Body body;
 
     @Getter private float angle;
 
@@ -29,7 +30,7 @@ public class Enemy implements GameObject {
 
     private final static float DEFAULT_SPAWN_POINT = 150;
 
-    private Texture texture;
+    private final Texture texture;
     public Enemy(float x, float y, float angle, GameScreen gameScreen){
         this.x = x;
         this.y = y;
@@ -43,8 +44,10 @@ public class Enemy implements GameObject {
 
     @Override
     public void update() {
+        System.out.println("1");
         try {
             String[] newPositions = reader.readLine().split(" ");
+            System.out.println(Arrays.toString(newPositions));
             this.x = Float.parseFloat(newPositions[0]);
             this.y = Float.parseFloat(newPositions[1]);
             this.angle = Float.parseFloat(newPositions[2]);
