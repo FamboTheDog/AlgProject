@@ -1,3 +1,5 @@
+package java;
+
 import com.company.communication_protocol.user.Constants;
 import com.company.server_structure.Server;
 import com.company.server_structure.room.ActiveRooms;
