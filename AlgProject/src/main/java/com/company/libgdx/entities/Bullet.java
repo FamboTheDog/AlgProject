@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 @AllArgsConstructor
 public class Bullet implements GameObject {
@@ -19,6 +20,7 @@ public class Bullet implements GameObject {
     public void update() {
         try {
             String[] newPos = reader.readLine().split(UserCommunicationProtocol.PARAMETER_SEPARATOR);
+            System.out.println(Arrays.toString(newPos));
             x = Float.parseFloat(newPos[1]);
             y = Float.parseFloat(newPos[2]);
         } catch (IOException e) {

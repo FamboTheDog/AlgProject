@@ -37,7 +37,7 @@ public class Room implements Runnable {
         this.serverName = serverName;
         ActiveRooms.addActiveRoom(serverName, this);
 
-        UserInformation creatorInformation = new UserInformation(creatorData, 400f, 150f, 0f);
+        UserInformation creatorInformation = new UserInformation(creatorData, 400f, 150f, 0f, System.currentTimeMillis());
         players.put(creatorSocket, creatorInformation);
 
         positions = new StringBuilder();
@@ -135,6 +135,10 @@ public class Room implements Runnable {
     }
 
     private void shoot(Socket key, UserInformation userInformation) {
+        long now = System.currentTimeMillis();
+        System.out.println(now - userInformation.getLastTimeShot());
+        if (now - userInformation.getLastTimeShot() < 100) return;
+        userInformation.setLastTimeShot(now);
         Bullet bullet = new Bullet(key, userInformation);
         this.bullets.add(bullet);
     }

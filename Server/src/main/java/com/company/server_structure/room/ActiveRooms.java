@@ -22,7 +22,7 @@ public class ActiveRooms {
     }
 
     public static void addPlayerToActiveRoom(Socket user, String addTo, UserCommunication userCommunication) {
-        activeRooms.get(addTo).getPlayers().put(user, new UserInformation(userCommunication, 400f, 150f, 0f));
+        activeRooms.get(addTo).getPlayers().put(user, new UserInformation(userCommunication, 400f, 150f, 0f, System.currentTimeMillis()));
     }
 
     public static Room getActiveRoomByName(String name) {
