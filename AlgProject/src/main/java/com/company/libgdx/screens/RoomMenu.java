@@ -1,9 +1,12 @@
 package com.company.libgdx.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -12,18 +15,19 @@ import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.libgdx.util.Styles;
 import lombok.SneakyThrows;
+import net.java.games.input.Component;
 
-public class StartMenu extends ScreenAdapter {
+public class RoomMenu extends ScreenAdapter {
 
     private final Boot parent;
     private final Stage stage;
 
-    public StartMenu(Boot parent) {
+    public RoomMenu(Boot parent) {
         this.parent = parent;
-        // create stage and set it as input processor
         stage = new Stage(new ScreenViewport());
-
     }
+
+
 
     @Override
     public void show() {
@@ -81,13 +85,11 @@ public class StartMenu extends ScreenAdapter {
 
     @Override
     public void resize(int width, int height) {
-        // change the stage's viewport when the screen size is changed
         stage.getViewport().update(width, height, true);
     }
 
     @Override
     public void dispose() {
-        // dispose of assets when not needed anymore
         stage.dispose();
     }
 

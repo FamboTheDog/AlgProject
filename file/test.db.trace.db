@@ -1,0 +1,4 @@
+2021-11-16 20:46:27 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Tabulka "USER" nenalezena
+Table "USER" not found; SQL statement:
+select user0_.id as id1_0_, user0_.name as name2_0_, user0_.password as password3_0_ from user user0_ where user0_.name=? [42102-200]

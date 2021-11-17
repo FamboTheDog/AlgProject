@@ -1,16 +1,14 @@
 package com.example.backend.db;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Entity
 public class User {
     @Id
@@ -18,7 +16,7 @@ public class User {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    private String name;
-    private String password;
+    @NonNull private String name;
+    @NonNull private String password;
 
 }
