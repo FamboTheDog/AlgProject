@@ -4,8 +4,8 @@ import com.badlogic.gdx.math.Vector2;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.data.UserCommunication;
 import com.company.data.UserInformation;
-import com.company.server_structure.room.entities.Asteroids;
-import com.company.server_structure.room.entities.Bullet;
+import com.company.server_structure.room.entities.entity_creators.Asteroids;
+import com.company.server_structure.room.entities.entity_creators.Bullet;
 import lombok.Getter;
 
 import java.io.IOException;

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
-import com.company.libgdx.screens.GameScreen;
+import com.company.libgdx.screens.screens.GameScreen;
 import com.company.libgdx.util.BodyHelper;
 import com.company.libgdx.util.ContactType;
 import lombok.Getter;

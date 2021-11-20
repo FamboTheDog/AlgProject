@@ -70,7 +70,6 @@ public class UserHandler implements Runnable{
                     case JOIN -> {
                         terminalInput = true;
                         ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], userCommunication);
-                        // logger.log(Level.INFO, ActiveRooms.getActiveRoomByName(commands[1]).getPositions().toString());
                         socketWriter.println(Room.getDEFAULT_POSITION() + UserCommunicationProtocol.COMMAND_SEPARATOR + ActiveRooms.getActiveRoomByName(commands[1]).getPositions());
                         logger.log(Level.INFO, "User joined");
                     }

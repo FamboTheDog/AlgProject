@@ -8,7 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.company.communication_protocol.PlayerSize;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
-import com.company.libgdx.screens.GameScreen;
+import com.company.libgdx.screens.screens.GameScreen;
 import com.company.libgdx.util.BodyHelper;
 import com.company.libgdx.util.Constants;
 import com.company.libgdx.util.ContactType;
