@@ -1,4 +1,4 @@
-package com.company.server_structure.room.entities;
+package com.company.server_structure.room.entities.entity_creators;
 
 import com.badlogic.gdx.math.Vector2;
 import com.company.communication_protocol.PlayerSize;

@@ -4,7 +4,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.company.libgdx.screens.GameScreen;
+import com.company.libgdx.screens.screens.GameScreen;
 import lombok.Getter;
 
 public class Asteroid implements GameObject {

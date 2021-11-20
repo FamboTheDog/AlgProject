@@ -2,6 +2,7 @@ package com.company.communication;
 
 import com.example.backend.db.User;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
@@ -15,7 +16,9 @@ public interface APICalls {
     Call<List<User>> getUsers();
 
     @POST("register")
-    Call<User> register(User user);
+    Call<User> register(@Body User user);
 
+    @POST("login")
+    Call<User> login(@Body User user);
 
 }

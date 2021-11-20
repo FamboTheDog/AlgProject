@@ -1,4 +1,4 @@
-package com.company.server_structure.room.entities;
+package com.company.server_structure.room.entities.entity_creators;
 
 import java.util.Arrays;
 import java.util.Random;

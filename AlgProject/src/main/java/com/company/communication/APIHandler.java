@@ -18,7 +18,7 @@ import java.lang.reflect.Field;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-public class APIHolder {
+public class APIHandler {
 
     private static final String BASE_URL = "http://localhost:8080/api/v1/";
 

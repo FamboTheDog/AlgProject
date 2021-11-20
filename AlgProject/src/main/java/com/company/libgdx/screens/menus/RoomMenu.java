@@ -1,33 +1,35 @@
-package com.company.libgdx.screens;
+package com.company.libgdx.screens.menus;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ChangeListener;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
+import com.company.libgdx.screens.Boot;
+import com.company.libgdx.screens.custom.CustomScreenAdapter;
+import com.company.libgdx.screens.screens.CreateRoom;
+import com.company.libgdx.screens.screens.JoinRoom;
 import com.company.libgdx.util.Styles;
+import lombok.Getter;
 import lombok.SneakyThrows;
-import net.java.games.input.Component;
 
-public class RoomMenu extends ScreenAdapter {
+public class RoomMenu extends CustomScreenAdapter {
 
-    private final Boot parent;
-    private final Stage stage;
+    @Getter private final Boot parent;
+    private static final Stage stage = new Stage(new ScreenViewport());
+
+    @Getter private CreateRoom createRoomScreen;
+    @Getter private JoinRoom joinRoomScreen;
 
     public RoomMenu(Boot parent) {
+        super(stage);
         this.parent = parent;
-        stage = new Stage(new ScreenViewport());
+        this.createRoomScreen = new CreateRoom(this);
+        this.joinRoomScreen = new JoinRoom(this);
     }
-
-
 
     @Override
     public void show() {
@@ -59,38 +61,17 @@ public class RoomMenu extends ScreenAdapter {
         createRoom.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.setScreen(parent.getCreateRoom());
+                parent.setScreen(createRoomScreen);
             }
         });
 
         joinRoom.addListener(new ChangeListener() {
             @Override
             public void changed(ChangeEvent event, Actor actor) {
-                parent.setScreen(parent.getJoinRoom());
+                parent.setScreen(joinRoomScreen);
             }
         });
 
-    }
-
-    @Override
-    public void render(float delta) {
-        // clear the screen ready for next set of images to be drawn
-        Gdx.gl.glClearColor(0f, 0f, 0f, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        // tell our stage to do actions and draw itself
-        stage.act(Math.min(Gdx.graphics.getDeltaTime(), 1 / 30f));
-        stage.draw();
-    }
-
-    @Override
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
-
-    @Override
-    public void dispose() {
-        stage.dispose();
     }
 
 }

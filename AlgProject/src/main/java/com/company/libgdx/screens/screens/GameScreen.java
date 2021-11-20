@@ -1,4 +1,4 @@
-package com.company.libgdx.screens;
+package com.company.libgdx.screens.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
@@ -11,6 +11,7 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
 import com.company.libgdx.entities.*;
+import com.company.libgdx.screens.Boot;
 import lombok.Getter;
 
 import java.io.IOException;

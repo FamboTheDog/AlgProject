@@ -5,6 +5,7 @@ import com.example.backend.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -15,7 +16,7 @@ public class UserController {
     private UserService userService;
 
     @PostMapping("register")
-    public User register(@RequestBody User user) {
+    public User register(@Valid @RequestBody User user) {
         return userService.register(user);
     }
 
