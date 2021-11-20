@@ -6,15 +6,13 @@ import com.company.data.UserCommunication;
 import com.company.data.UserInformation;
 import com.company.server_structure.room.entities.entity_creators.Asteroids;
 import com.company.server_structure.room.entities.entity_creators.Bullet;
+import com.company.server_structure.user.ActiveUsers;
 import lombok.Getter;
 
 import java.io.IOException;
 import java.net.Socket;
 import java.net.SocketException;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.Optional;
-import java.util.Random;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -33,11 +31,10 @@ public class Room implements Runnable {
 
     @Getter private static final String DEFAULT_POSITION = "150;400;0"; // default location for spawn, WILL  be changed later
 
-    public Room(Socket creatorSocket, UserCommunication creatorData, String serverName) {
+    public Room(Socket creatorSocket, UserCommunication creatorData, String serverName, UUID id) {
         this.serverName = serverName;
-        ActiveRooms.addActiveRoom(serverName, this);
 
-        UserInformation creatorInformation = new UserInformation(creatorData, 400f, 150f, 0f, System.currentTimeMillis());
+        UserInformation creatorInformation = new UserInformation(id, creatorData, 400f, 150f, 0f, System.currentTimeMillis());
         players.put(creatorSocket, creatorInformation);
 
         positions = new StringBuilder();
@@ -54,6 +51,7 @@ public class Room implements Runnable {
     public void start(){
         Thread informationWriter = new Thread(this);
         informationWriter.start();
+        ActiveRooms.addActiveRoom(serverName, this);
         logger.log(Level.INFO, "Room started");
     }
 
@@ -68,6 +66,7 @@ public class Room implements Runnable {
             for(Socket key: players.keySet()){
                 try {
                     String userInput = players.get(key).getUserCommunication().getReader().readLine();
+                    if (userInput == null) throw new SocketException();
                     String[] userMoves = userInput.split(UserCommunicationProtocol.PARAMETER_SEPARATOR);
                     UserInformation movingUser = players.get(key);
 
@@ -80,6 +79,7 @@ public class Room implements Runnable {
                 }
             }
             if (toRemove.isPresent()) {
+                ActiveUsers.removePlayer(players.get(toRemove.get()).getId());
                 players.remove(toRemove.get());
                 if (players.size() == 0) running = false;
             }

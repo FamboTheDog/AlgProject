@@ -9,6 +9,8 @@ import com.company.server_structure.room.Room;
 import lombok.SneakyThrows;
 
 import java.io.*;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.Socket;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -35,7 +37,10 @@ public class UserHandler implements Runnable{
         BufferedReader socketReader = new BufferedReader(new InputStreamReader(currentSocket.getInputStream()));
         PrintWriter    socketWriter = new PrintWriter(new BufferedWriter(new OutputStreamWriter(currentSocket.getOutputStream())), true);
 
-        userCommunication = new UserCommunication(socketReader, socketWriter);
+        socketWriter.println(id);
+
+        userCommunication = new UserCommunication(socketReader, socketWriter, new DatagramSocket(),
+                InetAddress.getByName("localhost"), new byte[256]);
 
         ActiveUsers.addPlayer(id, userCommunication);
 
@@ -69,7 +74,7 @@ public class UserHandler implements Runnable{
                     }
                     case JOIN -> {
                         terminalInput = true;
-                        ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], userCommunication);
+                        ActiveRooms.addPlayerToActiveRoom(currentSocket, commands[1], userCommunication, id);
                         socketWriter.println(Room.getDEFAULT_POSITION() + UserCommunicationProtocol.COMMAND_SEPARATOR + ActiveRooms.getActiveRoomByName(commands[1]).getPositions());
                         logger.log(Level.INFO, "User joined");
                     }
@@ -85,6 +90,7 @@ public class UserHandler implements Runnable{
                 socketReader.close();
                 currentSocket.close();
                 logger.log(Level.INFO, "User with id: " + id + " disconnected.");
+                ActiveUsers.removePlayer(id);
                 terminalInput = true;
             }
         }
@@ -103,7 +109,7 @@ public class UserHandler implements Runnable{
             serverName = commands[1];
         }
 
-        Room room = new Room(currentSocket, userCommunication, serverName);
+        Room room = new Room(currentSocket, userCommunication, serverName, id);
         room.start();
     }
 

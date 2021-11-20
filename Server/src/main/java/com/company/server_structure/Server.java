@@ -1,5 +1,6 @@
 package com.company.server_structure;
 
+import com.company.server_structure.user.ActiveUsers;
 import com.company.server_structure.user.UserHandler;
 import lombok.Setter;
 
@@ -19,6 +20,7 @@ public class Server {
     public void startServer() throws IOException {
         while(running){
             System.out.println("waiting");
+            System.out.println(ActiveUsers.getActivePlayers().size());
             new Thread(new UserHandler(socket.accept())).start();
             System.out.println("accepted");
         }

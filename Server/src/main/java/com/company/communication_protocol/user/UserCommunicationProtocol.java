@@ -5,6 +5,7 @@ import lombok.Getter;
 
 import java.io.*;
 import java.net.Socket;
+import java.util.UUID;
 
 public class UserCommunicationProtocol {
 
@@ -17,7 +18,7 @@ public class UserCommunicationProtocol {
     @Getter private static BufferedReader inputStream;
     @Getter private static PrintWriter outputStream;
 
-    private static boolean alreadyInitialized = false;
+    @Getter private static UUID id;
 
     // overriding the default constructor to a private one, so this class can't be instantiated
     private UserCommunicationProtocol(){}
@@ -27,16 +28,19 @@ public class UserCommunicationProtocol {
     }
 
     public static void initialize(String ip, int port) {
-        if (alreadyInitialized) throw new AssertionError("Class is already initialized!");
-        alreadyInitialized = true;
-
         try {
             socket = new Socket(ip, port);
             outputStream = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())), true);
             inputStream  = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+
+            initializeId(inputStream.readLine());
         }catch (IOException e){
             System.out.println("multiplayer is not working for you");
         }
+    }
+
+    private static void initializeId(String idString) {
+        id = UUID.fromString(idString);
     }
 
     public static void closeConnection() throws IOException {

@@ -1,6 +1,9 @@
 package com.company.data
 
-data class UserInformation(var userCommunication: UserCommunication,
+import java.util.*
+
+data class UserInformation(var id: UUID,
+                           var userCommunication: UserCommunication,
                            var x: Float,
                            var y: Float,
                            var angle: Float,

@@ -1,49 +1,67 @@
 import com.company.communication_protocol.user.Constants;
-import com.company.server_structure.Server;
-import com.company.server_structure.room.ActiveRooms;
 import com.company.communication_protocol.user.UserCommunicationProtocol;
-import com.company.server_structure.user.ActiveUsers;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import com.company.server_structure.room.ActiveRooms;
+import org.junit.jupiter.api.*;
 
-import java.io.*;
-import java.net.ServerSocket;
-import java.net.Socket;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class ServerTest {
+
+    private static final int testServerPort = 8000;
 
     @BeforeAll
     static void setup() {
-        new Thread(()->{
-            try {
-                ServerSocket socket = new ServerSocket(Constants.DEFAULT_PORT);
-                Server server = new Server(socket);
-                server.startServer();
-            } catch (IOException e) {
-                fail("You probably have another instance of server running on your computer!");
-            }
-        }).start();
+        ServerHolder server = new ServerHolder(testServerPort);
+        server.start();
     }
 
+    private final String[] createdRooms = {"testRoom1", "testRoom2", "testRoom3", "testRoom4"};
+    private final String[] shouldFail = {"testRoom1"};
     @Test
-    void testConnections() throws IOException {
-        Socket socket = new Socket(Constants.DEFAULT_IP, Constants.DEFAULT_PORT);
-
-        assertEquals(1, ActiveUsers.getActivePlayers().size());
-
-        socket.close();
-    }
-
-    @Test
+    @Order(1)
     void testRoomCreation() throws IOException {
-        UserCommunicationProtocol.initialize();
+        for (String createdRoom : createdRooms) {
+            UserCommunicationProtocol.initialize(Constants.DEFAULT_IP, testServerPort);
+            UserCommunicationProtocol.createRoom(createdRoom);
+        }
+        for (String failedRoom : shouldFail) {
+            UserCommunicationProtocol.initialize(Constants.DEFAULT_IP, testServerPort);
+            UserCommunicationProtocol.createRoom(failedRoom);
+        }
 
-        UserCommunicationProtocol.createRoom("server");
+        int activeRooms = ActiveRooms.getActiveRooms().size();
+        assertEquals(createdRooms.length, activeRooms);
+    }
 
-        int activeRoom = ActiveRooms.getActiveRooms().size();
-        assertEquals(1, activeRoom);
+    @Test
+    @Order(2)
+    void testRoomListing() {
+        UserCommunicationProtocol.initialize(Constants.DEFAULT_IP, testServerPort);
+
+        HashSet<String> set1 = new HashSet<>(List.of(createdRooms));
+        HashSet<String> set2 = new HashSet<>(List.of(UserCommunicationProtocol.listRooms()));
+
+        assertEquals(set1, set2);
+    }
+
+    @Test
+    @Order(3)
+    void testRoomJoining() throws IOException {
+        UserCommunicationProtocol.initialize(Constants.DEFAULT_IP, testServerPort);
+
+        String joiningTo = UserCommunicationProtocol.listRooms()[0];
+        UserCommunicationProtocol.joinRoom(joiningTo);
+
+        ArrayList<UUID> playerIDs = new ArrayList<>();
+        ActiveRooms.getActiveRoomByName(joiningTo).getPlayers().forEach((socket, comm) -> playerIDs.add(comm.getId()));
+        assertTrue(playerIDs.contains(UserCommunicationProtocol.getId()));
     }
 
 }

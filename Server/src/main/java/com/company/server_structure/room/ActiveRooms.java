@@ -21,8 +21,9 @@ public class ActiveRooms {
         activeRooms.put(name, toAdd);
     }
 
-    public static void addPlayerToActiveRoom(Socket user, String addTo, UserCommunication userCommunication) {
-        activeRooms.get(addTo).getPlayers().put(user, new UserInformation(userCommunication, 400f, 150f, 0f, System.currentTimeMillis()));
+    public static void addPlayerToActiveRoom(Socket user, String addTo, UserCommunication userCommunication, UUID id) {
+        activeRooms.get(addTo).getPlayers().put(user, new UserInformation(id, userCommunication, 400f, 150f,
+                0f, System.currentTimeMillis()));
     }
 
     public static Room getActiveRoomByName(String name) {
