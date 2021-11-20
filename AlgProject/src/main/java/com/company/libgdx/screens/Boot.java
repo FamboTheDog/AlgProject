@@ -2,18 +2,24 @@ package com.company.libgdx.screens;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.company.libgdx.screens.menus.LoginMenu;
+import com.company.libgdx.screens.menus.RoomMenu;
+import com.company.libgdx.screens.screens.*;
 import lombok.Getter;
+
+import java.util.Optional;
 
 public class Boot extends Game {
 
     @Getter private static Boot bootInstance;
     @Getter private int screenWidth, screenHeight;
-    private OrthographicCamera orthographicCamera;
-    @Getter private StartMenu startMenu;
-    @Getter private CreateServer createServer;
+    @Getter private OrthographicCamera orthographicCamera;
+
     @Getter private GameScreen gameScreen;
-    @Getter private JoinServer joinServer;
+    @Getter private LoginMenu loginMenu;
 
     public Boot(){
         bootInstance = this;
@@ -26,12 +32,9 @@ public class Boot extends Game {
         this.orthographicCamera = new OrthographicCamera();
         this.orthographicCamera.setToOrtho(false, screenWidth, screenHeight);
 
-        this.startMenu = new StartMenu(this);
-        this.createServer = new CreateServer(this);
-        this.gameScreen = new GameScreen(orthographicCamera);
-        this.joinServer = new JoinServer(this);
+        this.loginMenu = new LoginMenu(this);
 
-        setScreen(startMenu);
+        setScreen(loginMenu);
     }
 
 }

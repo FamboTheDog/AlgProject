@@ -3,13 +3,9 @@ package com.company.libgdx.entities;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
-import com.badlogic.gdx.math.Polygon;
 import com.badlogic.gdx.physics.box2d.Body;
-import com.company.libgdx.screens.GameScreen;
+import com.company.libgdx.screens.screens.GameScreen;
 import lombok.Getter;
-
-import java.util.Arrays;
-import java.util.Random;
 
 public class Asteroid implements GameObject {
 
@@ -22,9 +18,9 @@ public class Asteroid implements GameObject {
 
     private Texture texture;
 
-    float[] vertices;
+    private final float[] vertices;
 
-    private ShapeRenderer renderer = new ShapeRenderer();
+    private final ShapeRenderer renderer = new ShapeRenderer();
 
     public Asteroid(String toParse) {
         toParse = toParse.substring(1, toParse.length() - 1);

@@ -8,8 +8,9 @@ import java.net.Socket;
 
 public class UserCommunicationProtocol {
 
-    public static final String commandSeparator = "&";
-    public static final String parameterSeparator = ";";
+    public static final String COMMAND_SEPARATOR = "&";
+    public static final String PARAMETER_SEPARATOR = ";";
+    public static final String TERMINATOR = "END";
 
     @Getter static Socket socket;
 
@@ -22,7 +23,7 @@ public class UserCommunicationProtocol {
     private UserCommunicationProtocol(){}
 
     public static void initialize() {
-        initialize(Constants.defaultIP, Constants.defaultPort);
+        initialize(Constants.DEFAULT_IP, Constants.DEFAULT_PORT);
     }
 
     public static void initialize(String ip, int port) {
