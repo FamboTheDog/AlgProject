@@ -15,7 +15,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="AlgProject" target="16" />
-      <module name="Backend" target="17" />
+      <module name="Backend" target="16" />
       <module name="GameServer" target="16" />
       <module name="Server" target="16" />
     </bytecodeTargetLevel>
